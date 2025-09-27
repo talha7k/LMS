@@ -1,0 +1,14 @@
+# ===== Stage 1: Builder =====
+# This stage installs dependencies and builds ALL necessary applications in the monorepo.
+# UPDATED: Using a newer Node.js 20 base image to meet package requirements.
+FROM node:20-alpine AS builder
+
+# ... (rest of the file remains the same) ...
+
+# ===== Stage 2: Production Runner =====
+# This stage creates the final, lightweight image containing only the built dashboard and its production dependencies.
+# UPDATED: Using the same newer Node.js 20 base image for consistency.
+FROM node:20-alpine AS runner
+
+# ... (rest of the file remains the same) ...
+
