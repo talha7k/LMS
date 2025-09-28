@@ -16,3 +16,5 @@ export const SECTION = {
   FOOTER: 'footer',
   NAVIGATION: 'navigation'
 };
+
+export const BASE_URL = 'https://enrich.sa';

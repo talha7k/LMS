@@ -9,7 +9,7 @@
 
   import { getPageSection } from '@/utils/helpers/page';
   import { sharedPage } from '@/utils/stores/pages';
-  import { SECTION } from '@/utils/constants/page';
+  import { SECTION, BASE_URL } from '@/utils/constants/page';
 
   const content = $derived(getPageSection($sharedPage, SECTION.FOOTER));
   const seo = $derived(getPageSection($sharedPage, SECTION.SEO));
@@ -23,7 +23,7 @@
       <Logo src={seo?.settings.logo} alt={seo?.settings.title} />
 
       <a
-        href="https://classroomio.com"
+        href={BASE_URL}
         target="_blank"
         rel="noopener noreferrer"
         class="flex items-center gap-1 md:hidden"
@@ -64,12 +64,11 @@
       {/if}
     </ul>
     <a
-      href="https://classroomio.com"
+      href={BASE_URL}
       target="_blank"
       rel="noopener noreferrer"
       class="hidden items-center gap-1 md:flex"
     >
-      <p class="text-base font-semibold text-[#0233BD] underline">Built on ClassroomIO</p>
     </a>
   </nav>
 {/if}

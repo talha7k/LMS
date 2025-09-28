@@ -1,5 +1,5 @@
 <script>
-  import { SECTION } from '@/utils/constants/page';
+  import { SECTION, BASE_URL } from '@/utils/constants/page';
   import { getPageSection } from '@/utils/helpers/page';
   import { sharedPage } from '@/utils/stores/pages';
   import Logo from '@/components/ui/_custom/Logo.svelte';
@@ -28,13 +28,7 @@
         <a href={content.settings.facebook} target="_blank" title="facebook">Facebook</a>
       {/if}
     </ul>
-    <a
-      href="https://classroomio.com"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="flex items-center gap-1"
-    >
-      <p class="text-base font-semibold text-blue-800 underline">Built on ClassroomIO</p>
+    <a href={BASE_URL} target="_blank" rel="noopener noreferrer" class="flex items-center gap-1">
     </a>
   </nav>
 {/if}

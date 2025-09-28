@@ -56,7 +56,7 @@ class OpenAPISpecGenerator {
             description: 'Manage your organization on classroomio via the API',
             contact: {
               name: 'ClassroomIO',
-              url: 'https://classroomio.com'
+              url: env.BASE_URL
             }
           },
           servers: [

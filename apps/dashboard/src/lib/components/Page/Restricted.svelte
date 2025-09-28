@@ -2,10 +2,11 @@
   import { goto } from '$app/navigation';
   import PrimaryButton from '$lib/components/PrimaryButton/index.svelte';
   import { VARIANTS } from '$lib/components/PrimaryButton/constants';
+  import { config } from '$lib/config';
   import Locked from 'carbon-icons-svelte/lib/Locked.svelte';
 
   function handleClick() {
-    return goto('https://classroomio.com');
+    return goto(config.baseUrl);
   }
 </script>
 

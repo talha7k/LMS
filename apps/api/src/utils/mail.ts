@@ -20,7 +20,7 @@ export function extractNameAndEmail(str: string): FromData | undefined {
   }
 }
 
-export const withEmailTemplate = (content: string): string =>
+export const withEmailTemplate = (content: string, baseUrl: string = 'https://enrich.sa'): string =>
   `<!DOCTYPE html>
 <html>
 
@@ -159,10 +159,10 @@ export const withEmailTemplate = (content: string): string =>
       margin: 0;
       color: #1e293b;
     ">
-  <div class="gutter">
-    <a href="https://classroomio.com" target="_blank">
-      <img src="https://brand.cdn.clsrio.com/cio-bg-transparent.png" alt="ClassroomIO Logo" /></a>
-  </div>
+   <div class="gutter">
+     <a href="${baseUrl}" target="_blank">
+       <img src="https://brand.cdn.clsrio.com/cio-bg-transparent.png" alt="ClassroomIO Logo" /></a>
+   </div>
   <div class="wrap" style="
         background-color: #fff;
         padding: 40px 30px;

@@ -1,5 +1,6 @@
 <script lang="ts">
   import Box from '$lib/components/Box/index.svelte';
+  import { config } from '$lib/config';
   import AddVideoToLesson from '$lib/components/Course/components/Lesson/Materials/Video/AddVideoToLesson.svelte';
   import AddDocumentToLesson from '$lib/components/Course/components/Lesson/Materials/Document/AddDocumentToLesson.svelte';
   import {
@@ -479,7 +480,7 @@
                       <div style="position:relative;padding-bottom:51.416579%">
                         <iframe
                           src="https://muse.ai/embed/{video.metadata
-                            ?.svid}?logo=https://app.classroomio.com/logo-512.png&subtitles=auto&cover_play_position=center"
+                            ?.svid}?logo={config.appUrl}/logo-512.png&subtitles=auto&cover_play_position=center"
                           style="width:100%;height:100%;position:absolute;left:0;top:0"
                           frameborder="0"
                           allowfullscreen

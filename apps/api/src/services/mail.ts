@@ -38,7 +38,7 @@ export async function sendWithNodemailer(
       to,
       subject,
       replyTo,
-      html: withEmailTemplate(content)
+      html: withEmailTemplate(content, env.BASE_URL)
     });
 
     return {

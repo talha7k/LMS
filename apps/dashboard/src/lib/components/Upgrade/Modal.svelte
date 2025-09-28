@@ -10,6 +10,7 @@
   import PrimaryButton from '$lib/components/PrimaryButton/index.svelte';
   import { snackbar } from '$lib/components/Snackbar/store';
   import { t } from '$lib/utils/functions/translations';
+  import { config } from '$lib/config';
   import { currentOrg, currentOrgPath, isFreePlan } from '$lib/utils/store/org';
   import { profile } from '$lib/utils/store/user';
   import { Loading } from 'carbon-components-svelte';
@@ -81,7 +82,7 @@
   }
 
   function onLearnMore() {
-    window.open('https://classroomio.com/blog/early-adopter', '_blank');
+    window.open(`${config.baseUrl}/blog/early-adopter`, '_blank');
   }
   function toggleIsYearlyPlan() {
     isYearlyPlan = !isYearlyPlan;

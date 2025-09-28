@@ -1,6 +1,7 @@
 import { z } from 'zod';
 
 const envSchema = z.object({
+  BASE_URL: z.string().default('https://enrich.sa'),
   CLOUDFLARE_ACCESS_KEY: z.string().optional(),
   CLOUDFLARE_ACCOUNT_ID: z.string().optional(),
   CLOUDFLARE_BUCKET_DOMAIN: z.string().optional(),

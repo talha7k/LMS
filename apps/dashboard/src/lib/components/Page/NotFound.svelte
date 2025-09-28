@@ -2,6 +2,7 @@
   import { goto } from '$app/navigation';
   import { VARIANTS } from '$lib/components/PrimaryButton/constants';
   import PrimaryButton from '$lib/components/PrimaryButton/index.svelte';
+  import { config } from '$lib/config';
 
   export let isOrg = false;
 
@@ -10,7 +11,7 @@
       return goto('/');
     }
 
-    return goto('https://classroomio.com');
+    return goto(config.baseUrl);
   }
 </script>
 

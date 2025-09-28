@@ -2,7 +2,7 @@
   import { getPageSection } from '@/utils/helpers/page';
   import { sharedPage } from '@/utils/stores/pages';
   import Logo from '@/components/ui/_custom/Logo.svelte';
-  import { SECTION } from '@/utils/constants/page';
+  import { SECTION, BASE_URL } from '@/utils/constants/page';
 
   const content = $derived(getPageSection($sharedPage, SECTION.FOOTER));
   const seo = $derived(getPageSection($sharedPage, SECTION.SEO));
@@ -29,13 +29,7 @@
         <a href={content.settings.facebook} target="_blank" title="facebook">Facebook</a>
       {/if}
     </ul>
-    <a
-      href="https://classroomio.com"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="flex items-center gap-1"
-    >
-      <p class="text-examprep text-base font-semibold underline">Built on ClassroomIO</p>
+    <a href={BASE_URL} target="_blank" rel="noopener noreferrer" class="flex items-center gap-1">
     </a>
   </nav>
 {/if}
