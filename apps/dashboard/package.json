@@ -98,6 +98,7 @@
     "postcss-load-config": "^4.0.1",
     "qrcode": "^1.5.3",
     "sass": "^1.64.2",
+    "supabase": "^2.45.5",
     "svelte": "^4.1.2",
     "svelte-calendar": "^3.1.6",
     "svelte-dnd-action": "^0.9.24",
