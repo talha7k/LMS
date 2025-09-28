@@ -24,7 +24,10 @@ export default ({ mode }) => {
       entries: ['src/routes/**/+*.{js,ts,svelte}']
     },
     resolve: {
-      mainFields: ['browser']
+      mainFields: ['browser'],
+      alias: {
+        '@cio/api/rpc-types': path.resolve(__dirname, '../api/dist/rpc-types.js')
+      }
     }
   });
 };
