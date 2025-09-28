@@ -21,14 +21,10 @@ export default ({ mode }) => {
       sourcemap: false
     },
     optimizeDeps: {
-      entries: ['src/routes/**/+*.{js,ts,svelte}'],
-      include: ['@cio/api/rpc-types']
+      entries: ['src/routes/**/+*.{js,ts,svelte}']
     },
     resolve: {
-      mainFields: ['browser'],
-      alias: {
-        '@cio/api': path.resolve(__dirname, '../api/dist')
-      }
+      mainFields: ['browser']
     }
   });
 };
