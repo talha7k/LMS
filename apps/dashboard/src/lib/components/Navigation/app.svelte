@@ -81,9 +81,9 @@
           ? $t('navigation.courses')
           : $t('navigation.classroomio_home')}"
         id="logo"
-        class="text-lg line-clamp-1"
+        class="line-clamp-1 text-lg"
       >
-        {isCoursePage ? title : 'ClassroomIO'}
+        {isCoursePage ? title : 'LMS Enrich'}
       </a>
     </div>
 

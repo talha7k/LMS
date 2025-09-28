@@ -78,7 +78,7 @@
 </script>
 
 <svelte:head>
-  <title>Ask the Community - ClassroomIO</title>
+  <title>Ask the Community - LMS Enrich</title>
 </svelte:head>
 
 <section class="w-full max-w-3xl mx-auto">

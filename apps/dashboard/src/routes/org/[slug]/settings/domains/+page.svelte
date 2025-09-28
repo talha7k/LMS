@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-  <title>Custom domain - ClassroomIO</title>
+  <title>Custom domain - LMS Enrich</title>
 </svelte:head>
 
 <section class="w-full md:max-w-4xl mx-auto">

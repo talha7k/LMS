@@ -51,7 +51,7 @@
 </script>
 
 <svelte:head>
-  <title>Join ClassroomIO</title>
+  <title>Join LMS Enrich</title>
 </svelte:head>
 
 <AuthUI
@@ -64,8 +64,8 @@
   bind:formRef
 >
   <div class="mt-4 w-full">
-    <h3 class="dark:text-white text-xl font-semibold my-3">New Password</h3>
-    <p class="dark:text-white text-sm mb-6">Enter your new password details</p>
+    <h3 class="my-3 text-xl font-semibold dark:text-white">New Password</h3>
+    <p class="mb-6 text-sm dark:text-white">Enter your new password details</p>
     <TextField
       label="Your Password"
       bind:value={fields.password}
@@ -94,7 +94,7 @@
     {/if}
   </div>
 
-  <div class="my-4 w-full flex justify-end items-center">
+  <div class="my-4 flex w-full items-center justify-end">
     <PrimaryButton
       label="Reset Password"
       type="submit"

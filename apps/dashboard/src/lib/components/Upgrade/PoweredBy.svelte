@@ -7,7 +7,7 @@
 
 {#if $isFreePlan}
   <a
-    href={`https://classroomio.com?utm_source=${$currentOrg.siteName}.classroomio.com`}
+    href={`https://lms.enrich.sa?utm_source=${$currentOrg.siteName}.lms.enrich.sa`}
     target="_blank"
     class="group fixed bottom-14 right-9 z-50 hover:no-underline"
   >
@@ -20,8 +20,8 @@
             opacity-0 translate-y-full -translate-x-full transition duration-500 text-white"
         size={16}
       />
-      <img src="/logo-192.png" alt="logo" class="group-hover:opacity-0 opacity-100 h-[24px]" />
-      {$t('course.navItem.landing_page.powered_by')} ClassroomIO
+      <img src="/logo-192.png" alt="logo" class="h-[24px] opacity-100 group-hover:opacity-0" />
+      {$t('course.navItem.landing_page.powered_by')} LMS Enrich
     </span>
   </a>
 {/if}

@@ -19,12 +19,12 @@ const sendEmailNotification = async (
   console.log({ feed });
   if (!feed) return;
 
-  const postLink = `https://${feed.org.siteName}.classroomio.com/courses/${feed.courseId}?feedId=${feed.id}`;
+  const postLink = `https://${feed.org.siteName}.lms.enrich.sa/courses/${feed.courseId}?feedId=${feed.id}`;
 
   if (comment) {
     const emailData = [
       {
-        from: `"${feed.org.name} - ClassroomIO" <notify@mail.classroomio.com>`,
+        from: `"${feed.org.name} - LMS Enrich" <notify@mail.enrich.sa>`,
         to: feed.teacherEmail,
         subject: `[${feed.courseTitle}] - News feed comment`,
         content: `
@@ -35,7 +35,7 @@ const sendEmailNotification = async (
         <a class="button" href="${postLink}">View comment</a>
       </div>
       `,
-        replyTo: 'noreply@classroomio.com'
+        replyTo: 'noreply@enrich.sa'
       }
     ];
 
@@ -51,7 +51,7 @@ const sendEmailNotification = async (
 
   // else send to everyone except the author of the post
   const emailsData = feed.courseMembers.map((member) => ({
-    from: `"${feed.org.name} - ClassroomIO" <notify@mail.classroomio.com>`,
+    from: `"${feed.org.name} - LMS Enrich" <notify@mail.enrich.sa>`,
     to: member.email,
     replyTo: feed.teacherEmail,
     subject: `[${feed.courseTitle}] - New post in course`,

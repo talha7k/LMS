@@ -27,13 +27,13 @@ export const load = async ({ params = { slug: '' } }) => {
       ]
     },
     twitter: {
-      handle: '@classroomio',
-      site: '@classroomio',
+      handle: '@lmsenrich',
+      site: '@lmsenrich',
       cardType: 'summary_large_image' as const,
       title: data?.title,
       description: data?.description,
       image: data?.logo,
-      imageAlt: 'ClassroomIO OG Image'
+      imageAlt: 'LMS Enrich OG Image'
     }
   }) satisfies MetaTagsProps;
 

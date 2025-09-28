@@ -11,12 +11,12 @@ export async function POST({ fetch, request }) {
 
   const emailData = [
     {
-      from: `"Best from ClassroomIO" <notify@mail.classroomio.com>`,
+      from: `"Best from LMS Enrich" <notify@mail.enrich.sa>`,
       to,
-      subject: 'Welcome to ClassroomIO!',
+      subject: 'Welcome to LMS Enrich!',
       content: `
     <p>Dear ${name},</p>
-      <p>My name is Best, the founder of ClassroomIO. I saw you signed up, any questions so far?</p>
+      <p>My name is Best, the founder of LMS Enrich. I saw you signed up, any questions so far?</p>
       <p>
        Would you like to get a walkthrough of the tool in a 30 minutes product demo? It's free and we won't try to sell you anything, just want to learn from your use case and show you all the cool features and flows we thought about.
       </p>
@@ -24,7 +24,7 @@ export async function POST({ fetch, request }) {
         Interested? just book a 30mn demo slot in our calendar!
       </p>
       <div>
-        <a href="https://classroomio.com/demo">Book demo</a>
+        <a href="https://lms.enrich.sa/demo">Book demo</a>
       </div>
       <p>
         PS: I reply personally to every email. We don't have an outsourced support team at the other end of the globe.. ;-)

@@ -5,7 +5,7 @@
 </script>
 
 <svelte:head>
-  <title>Customize LMS - ClassroomIO</title>
+  <title>Customize LMS - LMS Enrich</title>
 </svelte:head>
 
 <section class="w-full md:max-w-4xl mx-auto">

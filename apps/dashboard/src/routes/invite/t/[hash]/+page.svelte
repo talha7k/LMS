@@ -183,7 +183,7 @@
 </script>
 
 <svelte:head>
-  <title>Join ClassroomIO</title>
+  <title>Join LMS Enrich</title>
 </svelte:head>
 
 <AuthUI

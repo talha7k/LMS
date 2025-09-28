@@ -89,7 +89,7 @@
 </script>
 
 <svelte:head>
-  <title>Dashboard - ClassroomIO</title>
+  <title>Dashboard - LMS Enrich</title>
 </svelte:head>
 
 <WelcomeModal />

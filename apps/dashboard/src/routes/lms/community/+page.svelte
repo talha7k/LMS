@@ -10,7 +10,7 @@
 </script>
 
 <svelte:head>
-  <title>Community - ClassroomIO</title>
+  <title>Community - LMS Enrich</title>
 </svelte:head>
 
 <section class="w-full max-w-4xl mx-auto">

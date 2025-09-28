@@ -32,8 +32,8 @@
 >
   <p class="text-sm text-black md:text-base lg:text-lg dark:text-white">
     {$t('welcome_modal.we_at')}
-    <a href="https://app.classroomio.com/" class="text-primary-700 no-underline hover:no-underline"
-      >ClassroomIO</a
+    <a href="https://app.lms.enrich.sa/" class="text-primary-700 no-underline hover:no-underline"
+      >LMS Enrich</a
     >
     {$t('welcome_modal.small_team')}
     <span class="text-primary-700">{$t('welcome_modal.thank_you')};</span>

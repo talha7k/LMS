@@ -1,6 +1,6 @@
 {
   "name": "dashboard",
-  "description": "classroomio",
+  "description": "lms.enrich.sa",
   "version": "0.0.1",
   "main": "main.js",
   "scripts": {

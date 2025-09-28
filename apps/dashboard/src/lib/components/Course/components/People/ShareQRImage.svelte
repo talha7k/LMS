@@ -29,7 +29,7 @@
   {#if $isFreePlan}
     <div class="bg-white flex items-center gap-x-2 px-4 py-2 rounded-md relative top-16">
       <img src="/logo.svg" alt="logo" class="w-6" />
-      <span class="font-bold text-base">ClassroomIO.com</span>
+      <span class="text-base font-bold">LMS.Enrich.sa</span>
     </div>
   {/if}
 </div>

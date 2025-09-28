@@ -53,7 +53,7 @@
 </script>
 
 <svelte:head>
-  <title>ClassroomIO - The classroom software</title>
+  <title>LMS Enrich - The classroom software</title>
 </svelte:head>
 
 <div class="md:h-[93vh] w-screen flex items-center justify-center flex-col m-2 sm:m-0 font-sans">
@@ -66,8 +66,8 @@
     />
   -->
   <div>
-    <h3 class="dark:text-white text-4xl text-center">
-      Classroom<span class="text-primary-700">IO</span>
+    <h3 class="text-center text-4xl dark:text-white">
+      LMS <span class="text-primary-700">Enrich</span>
     </h3>
     <p class="dark:text-white text-lg text-center">
       The operating system for classroooms of the future 🚀🚀🚀.

@@ -9,7 +9,7 @@
 </script>
 
 <svelte:head>
-  <title>Interactive Quizzes - ClassroomIO</title>
+  <title>Interactive Quizzes - LMS Enrich</title>
 </svelte:head>
 
 <section class="w-full max-w-6xl mx-auto">

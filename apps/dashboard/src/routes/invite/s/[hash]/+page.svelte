@@ -124,7 +124,7 @@
 </script>
 
 <svelte:head>
-  <title>Join {data.name} on ClassroomIO</title>
+  <title>Join {data.name} on LMS Enrich</title>
 </svelte:head>
 
 <AuthUI
