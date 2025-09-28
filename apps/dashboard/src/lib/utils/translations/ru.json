@@ -1006,7 +1006,8 @@
         "remove": "Удалять",
         "custom_favicon": "Пользовательский значок",
         "custom_code": "Пользовательский код",
-        "custom_domain_not_classroomio": "Домен не может содержать classio."
+        "custom_domain_not_classroomio": "Домен не может содержать classio.",
+        "custom_domain_not_enrich_sa": "Домен не может содержать 'enrich.sa'."
       },
       "customize-lms": {
         "title": "Настроить систему управления обучением",

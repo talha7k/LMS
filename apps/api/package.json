@@ -1,7 +1,7 @@
 {
   "name": "@cio/api",
   "version": "0.0.1",
-  "description": "ClassroomIO Backend for long processes",
+  "description": "Enrich Backend for long processes",
   "main": "dist/index.js",
   "type": "module",
   "scripts": {
@@ -19,14 +19,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/classroomio/classroomio.git"
+    "url": "git+https://github.com/enrich-sa/enrich-sa.git"
   },
   "author": "",
   "license": "ISC",
   "bugs": {
-    "url": "https://github.com/classroomio/classroomio/issues"
+    "url": "https://github.com/enrich-sa/enrich-sa/issues"
   },
-  "homepage": "https://github.com/classroomio/classroomio#readme",
+  "homepage": "https://github.com/enrich-sa/enrich-sa#readme",
   "exports": {
     "./rpc-types": {
       "types": "./dist/rpc-types.d.ts",

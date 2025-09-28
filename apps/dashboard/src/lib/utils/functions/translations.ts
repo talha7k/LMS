@@ -50,6 +50,11 @@ export const config = {
       locale: 'es',
       key: '',
       loader: async () => (await import('../translations/es.json')).default
+    },
+    {
+      locale: 'ar',
+      key: '',
+      loader: async () => (await import('../translations/ar.json')).default
     }
   ]
 };

@@ -1,5 +1,5 @@
 {
-  "name": "classroomio",
+  "name": "enrich-sa",
   "version": "0.1.1",
   "scripts": {
     "build": "turbo run build",

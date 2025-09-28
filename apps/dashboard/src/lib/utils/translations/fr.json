@@ -1006,7 +1006,8 @@
         "remove": "Retirer",
         "custom_favicon": "Icône de favori personnalisée",
         "custom_code": "Code personnalisé",
-        "custom_domain_not_classroomio": "Le domaine ne peut pas contenir « classroomio »"
+        "custom_domain_not_classroomio": "Le domaine ne peut pas contenir « classroomio »",
+        "custom_domain_not_enrich_sa": "Le domaine ne peut pas contenir « enrich.sa »"
       },
       "customize-lms": {
         "title": "Personnaliser le LMS",

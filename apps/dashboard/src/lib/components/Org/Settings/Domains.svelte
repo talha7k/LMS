@@ -1,5 +1,6 @@
 <script lang="ts">
   import { goto } from '$app/navigation';
+  import { browser } from '$app/environment';
   import { Column, CopyButton, Grid, Row } from 'carbon-components-svelte';
   import ArrowUpRight from 'carbon-icons-svelte/lib/ArrowUpRight.svelte';
   import Restart from 'carbon-icons-svelte/lib/Restart.svelte';
@@ -89,8 +90,8 @@
       return;
     }
 
-    if (sanitizedDomain.includes('classroomio.com')) {
-      errors.customDomain = $t('components.settings.domains.custom_domain_not_classroomio');
+    if (sanitizedDomain.includes('enrich.sa')) {
+      errors.customDomain = $t('components.settings.domains.custom_domain_not_enrich_sa');
       return;
     }
 
@@ -204,6 +205,19 @@
     return details.subdomain;
   }
 
+  function getRootDomain() {
+    if (browser && typeof window !== 'undefined') {
+      const host = window.location.hostname;
+      const parts = host.split('.');
+      if (parts.length >= 2) {
+        return parts.slice(-2).join('.');
+      } else {
+        return host;
+      }
+    }
+    return 'enrich.sa'; // fallback for rebranded domain
+  }
+
   $: setDefaults($currentOrg);
   $: resetErrors(siteName, customDomain);
 
@@ -224,7 +238,7 @@
         <!-- Org Site Name -->
         <TextField
           label="URL"
-          helperMessage={`https://${siteName || ''}.classroomio.com`}
+          helperMessage={`https://${siteName || ''}.${getRootDomain()}`}
           bind:value={siteName}
           type="text"
           placeholder="e.g traversymedia"

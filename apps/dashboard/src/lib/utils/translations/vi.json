@@ -1006,7 +1006,8 @@
         "remove": "Di dời",
         "custom_favicon": "Biểu tượng yêu thích tùy chỉnh",
         "custom_code": "Mã tùy chỉnh",
-        "custom_domain_not_classroomio": "Tên miền không thể chứa 'classroomio'"
+        "custom_domain_not_classroomio": "Tên miền không thể chứa 'classroomio'",
+        "custom_domain_not_enrich_sa": "Tên miền không thể chứa 'enrich.sa'"
       },
       "customize-lms": {
         "title": "Tùy chỉnh LMS",

@@ -1,5 +1,5 @@
 {
-  "name": "@classroomio/course-app",
+  "name": "@enrich-sa/course-app",
   "version": "0.0.16",
   "private": false,
   "main": "dist/create-template.js",
@@ -8,17 +8,17 @@
     "build": "vite build && node scripts/postbuild.js"
   },
   "bin": {
-    "@classroomio/course-app": "./dist/create-template.js"
+    "@enrich-sa/course-app": "./dist/create-template.js"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/classroomio/classroomio.git"
+    "url": "git+https://github.com/enrich-sa/enrich-sa.git"
   },
   "bugs": {
-    "url": "https://github.com/classroomio/classroomio/issues"
+    "url": "https://github.com/enrich-sa/enrich-sa/issues"
   },
-  "homepage": "https://github.com/classroomio/classroomio/blob/main/packages/course-app#readme",
-  "author": "ClassroomIO <help@classroomio.com>",
+  "homepage": "https://github.com/enrich-sa/enrich-sa/blob/main/packages/course-app#readme",
+  "author": "Enrich <help@enrich.sa>",
   "license": "MIT",
   "files": [
     "dist",

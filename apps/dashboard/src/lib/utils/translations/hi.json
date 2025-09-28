@@ -1006,7 +1006,8 @@
         "remove": "निकालना",
         "custom_favicon": "कस्टम फ़ेविकॉन",
         "custom_code": "कस्टम कोड",
-        "custom_domain_not_classroomio": "डोमेन में 'classroomio' नहीं हो सकता"
+        "custom_domain_not_classroomio": "डोमेन में 'classroomio' नहीं हो सकता",
+        "custom_domain_not_enrich_sa": "डोमेन में 'enrich.sa' नहीं हो सकता"
       },
       "customize-lms": {
         "title": "एलएमएस को अनुकूलित करें",

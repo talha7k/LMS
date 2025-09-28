@@ -1171,6 +1171,7 @@
         "your_domain": "Twoja domena",
         "custom_domain_error": "Nie możesz dodać domeny najwyższego poziomu jako domeny niestandardowej. Zamiast tego użyj subdomeny, takiej jak „kursy. [YourWebsite] .com” lub „www. [YourWebsite] .com”.",
         "custom_domain_not_classroomio": "Domena nie może zawierać „klasy”",
+        "custom_domain_not_enrich_sa": "Domena nie może zawierać „enrich.sa”",
         "custom_domain_success": "Domena niestandardowa dodana pomyślnie",
         "dns_description": "Ustaw następujący rekord na swoim dostawcy DNS, aby kontynuować:",
         "dns_type": "Typ",
