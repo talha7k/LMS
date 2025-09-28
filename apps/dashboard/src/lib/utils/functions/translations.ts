@@ -11,46 +11,46 @@ export const config = {
       key: '',
       loader: async () => (await import('../translations/en.json')).default
     },
-    {
-      locale: 'hi',
-      key: '',
-      loader: async () => (await import('../translations/hi.json')).default
-    },
-    {
-      locale: 'fr',
-      key: '',
-      loader: async () => (await import('../translations/fr.json')).default
-    },
-    {
-      locale: 'pl',
-      key: '',
-      loader: async () => (await import('../translations/pl.json')).default
-    },
-    {
-      locale: 'pt',
-      key: '',
-      loader: async () => (await import('../translations/pt.json')).default
-    },
-    {
-      locale: 'de',
-      key: '',
-      loader: async () => (await import('../translations/de.json')).default
-    },
-    {
-      locale: 'vi',
-      key: '',
-      loader: async () => (await import('../translations/vi.json')).default
-    },
-    {
-      locale: 'ru',
-      key: '',
-      loader: async () => (await import('../translations/ru.json')).default
-    },
-    {
-      locale: 'es',
-      key: '',
-      loader: async () => (await import('../translations/es.json')).default
-    },
+    // {
+    //   locale: 'hi',
+    //   key: '',
+    //   loader: async () => (await import('../translations/hi.json')).default
+    // },
+    // {
+    //   locale: 'fr',
+    //   key: '',
+    //   loader: async () => (await import('../translations/fr.json')).default
+    // },
+    // {
+    //   locale: 'pl',
+    //   key: '',
+    //   loader: async () => (await import('../translations/pl.json')).default
+    // },
+    // {
+    //   locale: 'pt',
+    //   key: '',
+    //   loader: async () => (await import('../translations/pt.json')).default
+    // },
+    // {
+    //   locale: 'de',
+    //   key: '',
+    //   loader: async () => (await import('../translations/de.json')).default
+    // },
+    // {
+    //   locale: 'vi',
+    //   key: '',
+    //   loader: async () => (await import('../translations/vi.json')).default
+    // },
+    // {
+    //   locale: 'ru',
+    //   key: '',
+    //   loader: async () => (await import('../translations/ru.json')).default
+    // },
+    // {
+    //   locale: 'es',
+    //   key: '',
+    //   loader: async () => (await import('../translations/es.json')).default
+    // },
     {
       locale: 'ar',
       key: '',
