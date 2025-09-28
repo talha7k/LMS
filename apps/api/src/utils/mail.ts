@@ -20,7 +20,13 @@ export function extractNameAndEmail(str: string): FromData | undefined {
   }
 }
 
-export const withEmailTemplate = (content: string, baseUrl: string = 'https://enrich.sa'): string =>
+export const withEmailTemplate = (
+  content: string,
+  baseUrl: string = 'https://enrich.sa',
+  twitterUrl: string = 'https://twitter.com/enrich_sa',
+  facebookUrl: string = 'https://www.facebook.com/enrich.sa',
+  youtubeUrl: string = 'https://www.youtube.com/@EnrichSA'
+): string =>
   `<!DOCTYPE html>
 <html>
 
@@ -160,8 +166,8 @@ export const withEmailTemplate = (content: string, baseUrl: string = 'https://en
       color: #1e293b;
     ">
    <div class="gutter">
-     <a href="${baseUrl}" target="_blank">
-       <img src="https://brand.cdn.clsrio.com/cio-bg-transparent.png" alt="ClassroomIO Logo" /></a>
+      <a href="${baseUrl}" target="_blank">
+        <img src="https://brand.cdn.clsrio.com/cio-bg-transparent.png" alt="Enrich Logo" /></a>
    </div>
   <div class="wrap" style="
         background-color: #fff;
@@ -184,21 +190,21 @@ export const withEmailTemplate = (content: string, baseUrl: string = 'https://en
     <table class="socialicons">
       <tr>
         <td>
-          <a target="_blank" href="https://twitter.com/classroomio"><img title="X"
+          <a target="_blank" href="${twitterUrl}"><img title="X"
               src="https://brand.cdn.clsrio.com/socials/twitter.png" alt="X" width="19" /></a>
         </td>
         <td>
-          <a target="_blank" href="https://www.youtube.com/@ClassroomIO"><img title="Youtube"
+          <a target="_blank" href="${youtubeUrl}"><img title="Youtube"
               src="https://brand.cdn.clsrio.com/socials/youtube.png" alt="Youtube" width="24" /></a>
         </td>
         <td>
-          <a target="_blank" href="https://www.facebook.com/classroomiohq"><img title="Facebook"
+          <a target="_blank" href="${facebookUrl}"><img title="Facebook"
               src="https://brand.cdn.clsrio.com/socials/facebook.png" alt="Facebook" width="24" /></a>
         </td>
       </tr>
     </table>
     <p style="padding-top: 8px; line-height: initial">
-      ClassroomIO ${new Date().getFullYear()}. All rights reserved.<br />
+      Enrich ${new Date().getFullYear()}. All rights reserved.<br />
       <a style="text-decoration: none" href="https://app.enzuzo.com/policies/tos/958fc978-5477-11ee-a03b-7b111830c594"
         target="_blank">Terms</a>
       |

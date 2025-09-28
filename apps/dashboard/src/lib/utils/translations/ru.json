@@ -1006,7 +1006,7 @@
         "remove": "Удалять",
         "custom_favicon": "Пользовательский значок",
         "custom_code": "Пользовательский код",
-        "custom_domain_not_classroomio": "Домен не может содержать classio.",
+        "custom_domain_not_enrich": "Домен не может содержать enrich.",
         "custom_domain_not_enrich_sa": "Домен не может содержать 'enrich.sa'."
       },
       "customize-lms": {
@@ -1100,12 +1100,12 @@
     "goto": "Идти к",
     "courses": "Курсы",
     "home": "Дом",
-    "classroomio_home": "КлассIO Главная страница",
+    "enrich_home": "Enrich Главная страница",
     "dashboard": "Панель приборов",
     "discussion": "Обсуждение",
     "people": "Люди",
     "goto_lms": "Перейти в СДО",
-    "goto_home": "Перейти на главную страницу ClassroomIO",
+    "goto_home": "Перейти на главную страницу Enrich",
     "login": "Авторизоваться",
     "signup": "Зарегистрироваться",
     "redirecting": "Перенаправление",

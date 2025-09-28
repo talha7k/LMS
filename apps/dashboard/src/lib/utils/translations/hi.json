@@ -1006,7 +1006,7 @@
         "remove": "निकालना",
         "custom_favicon": "कस्टम फ़ेविकॉन",
         "custom_code": "कस्टम कोड",
-        "custom_domain_not_classroomio": "डोमेन में 'classroomio' नहीं हो सकता",
+        "custom_domain_not_enrich": "डोमेन में 'enrich' नहीं हो सकता",
         "custom_domain_not_enrich_sa": "डोमेन में 'enrich.sa' नहीं हो सकता"
       },
       "customize-lms": {
@@ -1100,12 +1100,12 @@
     "goto": "जाओ",
     "courses": "पाठ्यक्रम",
     "home": "घर",
-    "classroomio_home": "क्लासरूमआईओ होम",
+    "enrich_home": "Enrich होम",
     "dashboard": "डैशबोर्ड",
     "discussion": "बहस",
     "people": "लोग",
     "goto_lms": "एलएमएस पर जाएं",
-    "goto_home": "क्लासरूमआईओ होम पर जाएं",
+    "goto_home": "Enrich होम पर जाएं",
     "login": "लॉग इन करें",
     "signup": "साइन अप करें",
     "redirecting": "पुन: निर्देशित",

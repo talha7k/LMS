@@ -1006,7 +1006,7 @@
         "remove": "Eliminar",
         "custom_favicon": "favicon personalizado",
         "custom_code": "código personalizado",
-        "custom_domain_not_classroomio": "El dominio no puede contener 'classroomio'",
+        "custom_domain_not_enrich": "El dominio no puede contener 'enrich'",
         "custom_domain_not_enrich_sa": "El dominio no puede contener 'enrich.sa'"
       },
       "customize-lms": {
@@ -1100,12 +1100,12 @@
     "goto": "Ir a",
     "courses": "Cursos",
     "home": "Hogar",
-    "classroomio_home": "AulaIO Inicio",
+    "enrich_home": "Enrich Inicio",
     "dashboard": "Panel",
     "discussion": "Discusión",
     "people": "Gente",
     "goto_lms": "Ir a LMS",
-    "goto_home": "Ir a la página de inicio de ClassroomIO",
+    "goto_home": "Ir a la página de inicio de Enrich",
     "login": "Acceso",
     "signup": "Inscribirse",
     "redirecting": "Redireccionando",

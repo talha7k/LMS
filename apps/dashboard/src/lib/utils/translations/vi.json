@@ -1006,7 +1006,7 @@
         "remove": "Di dời",
         "custom_favicon": "Biểu tượng yêu thích tùy chỉnh",
         "custom_code": "Mã tùy chỉnh",
-        "custom_domain_not_classroomio": "Tên miền không thể chứa 'classroomio'",
+        "custom_domain_not_enrich": "Tên miền không thể chứa 'enrich'",
         "custom_domain_not_enrich_sa": "Tên miền không thể chứa 'enrich.sa'"
       },
       "customize-lms": {
@@ -1100,12 +1100,12 @@
     "goto": "Đi đến",
     "courses": "Khóa học",
     "home": "Trang chủ",
-    "classroomio_home": "Lớp họcIO Trang chủ",
+    "enrich_home": "Enrich Trang chủ",
     "dashboard": "bảng điều khiển",
     "discussion": "Cuộc thảo luận",
     "people": "Mọi người",
     "goto_lms": "Đi tới LMS",
-    "goto_home": "Đi tới Lớp họcIO Trang chủ",
+    "goto_home": "Đi tới Enrich Trang chủ",
     "login": "Đăng nhập",
     "signup": "Đăng ký",
     "redirecting": "Chuyển hướng",

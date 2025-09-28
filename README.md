@@ -1,5 +1,5 @@
 <a href="https://enrich.sa/">
-  <img alt="Enrich is a no-code tool that allows you build and scale your online bootcamp with ease." src="https://raw.githubusercontent.com/rotimi-best/classroomio/main/apps/classroomio-com/static/classroomio-opengraph-image.png" />
+  <img alt="Enrich is a no-code tool that allows you build and scale your online bootcamp with ease." src="https://raw.githubusercontent.com/rotimi-best/enrich/main/apps/enrich-com/static/enrich-opengraph-image.png" />
   <h1 align="center">Enrich.sa</h1>
   <p align="center">
     The Open Source Learning Management System for Companies
@@ -8,11 +8,11 @@
   </p>
 </a>
 
-[![Codacy Badge](https://api.codacy.com/project/badge/Grade/629e2bb8994345729513c4d69ccbe3d5)](https://app.codacy.com/gh/rotimi-best/classroomio?utm_source=github.com&utm_medium=referral&utm_content=rotimi-best/classroomio&utm_campaign=Badge_Grade)
+[![Codacy Badge](https://api.codacy.com/project/badge/Grade/629e2bb8994345729513c4d69ccbe3d5)](https://app.codacy.com/gh/rotimi-best/enrich?utm_source=github.com&utm_medium=referral&utm_content=rotimi-best/enrich&utm_campaign=Badge_Grade)
 
 ## ✨ About Enrich.sa
 
-<img alt="Enrich Courses page" src="https://raw.githubusercontent.com/rotimi-best/classroomio/main/apps/classroomio-com/static/classroomio-courses.png" />
+<img alt="Enrich Courses page" src="https://raw.githubusercontent.com/rotimi-best/enrich/main/apps/enrich-com/static/enrich-courses.png" />
 
 Streamline training for everyone with Enrich.sa. Our all-in-one platform empowers bootcamps, educators, and businesses to manage training programs easily. With our platform, anyone can run multiple classes and cohorts all from one UI. The application is mobile-first, which means that students can access your lesson materials from any device.
 
@@ -71,7 +71,7 @@ Here is what you need to be able to run Enrich.sa
 
 This repo is a mono repo that consists of 3 projects:
 
-1. `classroomio-com`: The landing page of Enrich hosted [here](https://enrich.sa)
+1. `enrich-com`: The landing page of Enrich hosted [here](https://enrich.sa)
 2. `api`: The api service that handles PDF, video processing, Emailing and Notifications.
 3. `dashboard`: The web application that runs the learning management system hosted [here](https://app.enrich.sa).
 4. `docs`: Official documentation of Enrich hosted [here](https://enrich.sa/docs)
@@ -84,20 +84,20 @@ This repo is a mono repo that consists of 3 projects:
 
 2. This will open a fully configured workspace in your browser with all the necessary dependencies already installed.
 
-[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/rotimi-best/classroomio)
+[![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/rotimi-best/enrich)
 
 ### Local Setup
 
 1. Fork the repo, then clone it using the following command (remember to replace the url with the url from your forked repo)
 
    ```bash
-   git clone https://github.com/rotimi-best/classroomio.git
+    git clone https://github.com/rotimi-best/enrich.git
    ```
 
 2. Go to project folder
 
    ```bash
-   cd classroomio
+    cd enrich
    ```
 
 3. Set up Node if your Node version does not meet the project's requirements, as instructed by the documentation., "nvm" (Node Version Manager) allows using Node at the version required by the project:
@@ -118,7 +118,7 @@ This repo is a mono repo that consists of 3 projects:
 
 4. Set up your `.env` file
 
-   - Go to `apps/classroomio-com`, `apps/dashboard` and `apps/api`.
+   - Go to `apps/enrich-com`, `apps/dashboard` and `apps/api`.
    - Duplicate the `.env.example` file and rename it to `.env`
    - Populate your .env files with the neccessary variables
 
@@ -172,14 +172,14 @@ To get the environmental variables for supabase continue to step(5)
 
 8. All projects should start running
 
-   - `classroomio-com`: [http://localhost:5174](http://localhost:5174)
+   - `enrich-com`: [http://localhost:5174](http://localhost:5174)
    - `api`: [http://localhost:3002](http://localhost:3002)
    - `dashboard`: [http://localhost:5173](http://localhost:5173)
    - `docs`: [http://localhost:3000](http://localhost:3000)
 
 9. Running a specific project
 
-   - **classroomio-com**: `pnpm dev --filter=classroomio-com`
+   - **enrich-com**: `pnpm dev --filter=enrich-com`
    - **api**: `pnpm dev --filter=api`
    - **dashboard**: `pnpm dev --filter=dashboard`
    - **docs**: `pnpm dev --filter=docs`

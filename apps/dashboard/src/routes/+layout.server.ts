@@ -151,11 +151,11 @@ function getBaseMetaTags(url: URL) {
       siteName: 'LMS Enrich',
       images: [
         {
-          url: 'https://brand.cdn.clsrio.com/og/classroomio-og.png',
+          url: 'https://brand.cdn.clsrio.com/og/enrich-og.png',
           alt: 'LMS Enrich OG Image',
           width: 1920,
           height: 1080,
-          secureUrl: 'https://brand.cdn.clsrio.com/og/classroomio-og.png',
+          secureUrl: 'https://brand.cdn.clsrio.com/og/enrich-og.png',
           type: 'image/jpeg'
         }
       ]
@@ -167,7 +167,7 @@ function getBaseMetaTags(url: URL) {
       title: 'LMS Enrich | The Open Source Learning Management System for Companies',
       description:
         'A flexible, user-friendly platform for creating, managing, and delivering courses for companies and training organisations',
-      image: 'https://brand.cdn.clsrio.com/og/classroomio-og.png',
+      image: 'https://brand.cdn.clsrio.com/og/enrich-og.png',
       imageAlt: 'LMS Enrich OG Image'
     }
   });
