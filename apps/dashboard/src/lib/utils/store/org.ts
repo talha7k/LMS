@@ -3,7 +3,7 @@ import { browser, dev } from '$app/environment';
 import { derived, writable } from 'svelte/store';
 
 import { PLAN } from 'shared/src/plans/constants';
-import { PUBLIC_IS_SELFHOSTED } from '$env/static/public';
+import { PUBLIC_APP_HOST, PUBLIC_IS_SELFHOSTED } from '$env/static/public';
 import { ROLE } from '$lib/utils/constants/roles';
 import { STEPS } from '../constants/quiz';
 import type { UserLessonDataType } from '$lib/utils/types';
@@ -55,12 +55,16 @@ export const currentOrgDomain = derived(currentOrg, ($currentOrg) => {
   // Get the root domain from window.location
   let rootDomain = '';
   if (browser && typeof window !== 'undefined') {
-    const host = window.location.hostname;
-    const parts = host.split('.');
-    if (parts.length >= 2) {
-      rootDomain = parts.slice(-2).join('.');
+    if (PUBLIC_APP_HOST) {
+      rootDomain = PUBLIC_APP_HOST;
     } else {
-      rootDomain = host;
+      const host = window.location.hostname;
+      const parts = host.split('.');
+      if (parts.length >= 2) {
+        rootDomain = parts.slice(-2).join('.');
+      } else {
+        rootDomain = host;
+      }
     }
   }
 
