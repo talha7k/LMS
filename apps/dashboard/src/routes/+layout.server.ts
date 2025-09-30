@@ -128,9 +128,7 @@ function isURLCustomDomain(url: URL) {
     return false;
   }
 
-  const notCustomDomainHosts = [env.PRIVATE_APP_HOST || '', 'lms.enrich.sa', 'vercel.app'].filter(
-    Boolean
-  );
+  const notCustomDomainHosts = [env.PRIVATE_APP_HOST || '', 'vercel.app'].filter(Boolean);
 
   return !notCustomDomainHosts.some((host) => url.host.endsWith(host));
 }
