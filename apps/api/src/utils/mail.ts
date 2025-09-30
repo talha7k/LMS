@@ -3,7 +3,7 @@ interface FromData {
   email: string;
 }
 
-// format: "ClassroomIO Developers (via ClassroomIO.com)" <notify@mail.classroomio.com>
+// format: "Enrich.sa Developers (via Enrich.sa)" <notify@mail.enrich.sa>
 export function extractNameAndEmail(str: string): FromData | undefined {
   // Use regular expressions to match the name and email
   const regex = /"(.*?)"\s+<\s*(.*?)@(.*?)\s*>/;
