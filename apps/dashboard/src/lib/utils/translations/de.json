@@ -1006,7 +1006,7 @@
         "remove": "Entfernen",
         "custom_favicon": "Benutzerdefiniertes Favicon",
         "custom_code": "Benutzerdefinierter Code",
-        "custom_domain_not_enrich": "Domain darf „enrich" nicht enthalten",
+        "custom_domain_not_enrich": "Domain darf „enrich nicht enthalten",
         "custom_domain_not_enrich_sa": "Domain darf „enrich.sa“ nicht enthalten"
       },
       "customize-lms": {
