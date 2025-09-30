@@ -38,7 +38,7 @@
           const courseId = data?.courses[0].id;
           goto(`/courses/${courseId}/lessons`);
         } else {
-          snackbar.info('setup.info_course');
+          snackbar.info($t('setup.info_course'));
         }
         break;
 
@@ -48,7 +48,7 @@
           const lessonId = data?.lessons[0].id;
           goto(`/courses/${courseId}/lessons/${lessonId}`);
         } else {
-          snackbar.info('setup.info_lesson');
+          snackbar.info($t('setup.info_lesson'));
         }
         break;
 
@@ -57,7 +57,7 @@
           const courseId = data?.courses[0].id;
           goto(`/courses/${courseId}/settings`);
         } else {
-          snackbar.info('setup.info_course');
+          snackbar.info($t('setup.info_course'));
         }
         break;
 
