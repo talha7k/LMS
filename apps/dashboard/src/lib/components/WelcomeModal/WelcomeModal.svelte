@@ -39,5 +39,5 @@
     <span class="text-primary-700">{$t('welcome_modal.thank_you')};</span>
     {$t('welcome_modal.deeply_appreciate')}
   </p>
-  <!-- <img src="/images/welcome-img.svg" alt="A welcome banner" class="my-6 w-full" /> -->
+  <img src="/images/welcome-modal-banner.svg" alt="A welcome banner" class="my-6 w-full" />
 </Modal>
