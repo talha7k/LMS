@@ -3,6 +3,8 @@ import { OpenAIStream, StreamingTextResponse } from 'ai';
 
 import { env } from '$env/dynamic/private';
 
+console.log('OPENAI_API_KEY loaded:', !!env.OPENAI_API_KEY);
+
 // Create an OpenAI API client (that's edge friendly!)
 const openAIConfig = new Configuration({
   apiKey: env.OPENAI_API_KEY
@@ -21,27 +23,39 @@ const instruction = {
 };
 
 export async function POST({ request }) {
-  const { prompt } = await request.json();
-  const { courseTitle, lessonTitle, type, locale } = JSON.parse(prompt);
+  try {
+    const { prompt } = await request.json();
+    console.log('Received prompt:', prompt);
 
-  const response = await openai.createChatCompletion({
-    model: 'gpt-4o',
-    messages: [
-      {
-        role: 'system',
-        content: 'Act like an assistant of a lecturer'
-      },
-      {
-        role: 'user',
-        content: `Generate ${instruction[type]} given the course title is "${courseTitle}" and the title of the lesson is "${lessonTitle}". Format in HTML without any styling. MOST IMPORTANT DON'T include the title of the course and don't include the lesson title: "${lessonTitle}" in your output. Please make sure the content is well detailed and you output the content in this locale: ${locale}.
+    const { courseTitle, lessonTitle, type, locale } = JSON.parse(prompt);
+    console.log('Parsed prompt:', { courseTitle, lessonTitle, type, locale });
+
+    const response = await openai.createChatCompletion({
+      model: 'gpt-4o',
+      messages: [
+        {
+          role: 'system',
+          content: 'Act like an assistant of a lecturer'
+        },
+        {
+          role: 'user',
+          content: `Generate ${instruction[type]} given the course title is "${courseTitle}" and the title of the lesson is "${lessonTitle}". Format in HTML without any styling. MOST IMPORTANT DON'T include the title of the course and don't include the lesson title: "${lessonTitle}" in your output. Please make sure the content is well detailed and you output the content in this locale: ${locale}.
         VERY IMPORTANT: DON'T INCLUDE THREE BACKTICKS AND html IN YOUR OUTPUT.
         `
-      }
-    ],
-    stream: true
-  });
-  // Convert the response into a friendly text-stream
-  const stream = OpenAIStream(response);
-  // Respond with the stream
-  return new StreamingTextResponse(stream);
+        }
+      ],
+      stream: true
+    });
+
+    // Convert the response into a friendly text-stream
+    const stream = OpenAIStream(response);
+    // Respond with the stream
+    return new StreamingTextResponse(stream);
+  } catch (error) {
+    console.error('Error in /api/completion:', error);
+    return new Response(JSON.stringify({ error: 'Error processing completion request' }), {
+      status: 500,
+      headers: { 'Content-Type': 'application/json' }
+    });
+  }
 }
