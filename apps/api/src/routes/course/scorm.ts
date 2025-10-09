@@ -4,6 +4,7 @@ import scorm from 'simple-scorm-packager';
 import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';
+import { RESPONSE_ALREADY_SENT } from '@hono/node-server';
 
 export const scormRouter = new Hono().post('/:courseId', async (c) => {
   const courseId = c.req.param('courseId');
@@ -60,15 +61,15 @@ export const scormRouter = new Hono().post('/:courseId', async (c) => {
 
   await fs.rm(tmpDir, { recursive: true, force: true });
 
-  c.header('Content-Type', 'application/zip');
-  c.header('Content-Disposition', `attachment; filename="${courseData.title}.zip"`);
-
-  const uint8Array = new Uint8Array(zipBuffer);
-
-  return new Response(uint8Array, {
-    headers: {
+  const nodeRes = c.env.outgoing;
+  if (nodeRes) {
+    nodeRes.writeHead(200, {
       'Content-Type': 'application/zip',
       'Content-Disposition': `attachment; filename="${courseData.title}.zip"`
-    }
-  });
+    });
+    nodeRes.end(zipBuffer);
+    return RESPONSE_ALREADY_SENT;
+  }
+
+  return c.json({ error: 'Could not send SCORM package' }, 500);
 });
