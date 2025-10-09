@@ -6,6 +6,7 @@ import { generateCoursePdf } from '$src/utils/course';
 import { katexRouter } from '$src/routes/course/katex';
 import { lessonRouter } from '$src/routes/course/lesson';
 import { presignRouter } from '$src/routes/course/presign';
+import { scormRouter } from '$src/routes/course/scorm';
 import { zValidator } from '@hono/zod-validator';
 
 export const courseRouter = new Hono()
@@ -47,4 +48,5 @@ export const courseRouter = new Hono()
   })
   .route('/katex', katexRouter)
   .route('/lesson', lessonRouter)
-  .route('/presign', presignRouter);
+  .route('/presign', presignRouter)
+  .route('/scorm', scormRouter);

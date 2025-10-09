@@ -77,6 +77,26 @@
     }
   }
 
+  async function downloadScorm() {
+    const response = await fetch(`/api/course/scorm/${data.courseId}`, {
+      method: 'POST'
+    });
+
+    if (!response.ok) {
+      snackbar.error('Error downloading SCORM package');
+      return;
+    }
+
+    const blob = await response.blob();
+    const url = window.URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = `${$course.title}.zip`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+  }
+
   $: shouldGoToNextLesson = query.get('next') === 'true';
   $: !isFetching && shouldGoToNextLesson && onNextQuery($lessons);
   $: lessonsLength =
@@ -115,6 +135,11 @@
         <PrimaryButton
           label={$t('course.navItem.lessons.add_lesson.button_title')}
           onClick={addLesson}
+          isDisabled={!!lessonEditing}
+        />
+        <PrimaryButton
+          label={$t('course.navItem.lessons.download_scorm')}
+          onClick={downloadScorm}
           isDisabled={!!lessonEditing}
         />
       </RoleBasedSecurity>
