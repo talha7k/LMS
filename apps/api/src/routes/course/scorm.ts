@@ -60,10 +60,13 @@ export const scormRouter = new Hono().post('/:courseId', async (c) => {
 
   await fs.rm(tmpDir, { recursive: true, force: true });
 
-  const arrayBuffer = zipBuffer.buffer.slice(zipBuffer.byteOffset, zipBuffer.byteOffset + zipBuffer.byteLength);
-
   c.header('Content-Type', 'application/zip');
   c.header('Content-Disposition', `attachment; filename="${courseData.title}.zip"`);
 
-  return c.body(arrayBuffer);
+  return new Response(zipBuffer, {
+    headers: {
+      'Content-Type': 'application/zip',
+      'Content-Disposition': `attachment; filename="${courseData.title}.zip"`
+    }
+  });
 });
