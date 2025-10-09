@@ -19,7 +19,9 @@
   import { VARIANTS } from '$lib/components/PrimaryButton/constants';
   import PrimaryButton from '$lib/components/PrimaryButton/index.svelte';
   import RoleBasedSecurity from '$lib/components/RoleBasedSecurity/index.svelte';
+  import { snackbar } from '$lib/components/Snackbar/store';
   import { t } from '$lib/utils/functions/translations';
+  import { getAccessToken } from '$lib/utils/functions/supabase';
   import { profile } from '$lib/utils/store/user';
   import type { Lesson } from '$lib/utils/types';
   import { COURSE_VERSION } from '$lib/utils/types';
@@ -78,8 +80,12 @@
   }
 
   async function downloadScorm() {
+    const accessToken = await getAccessToken();
     const response = await fetch(`/api/course/scorm/${data.courseId}`, {
-      method: 'POST'
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${accessToken}`
+      }
     });
 
     if (!response.ok) {
