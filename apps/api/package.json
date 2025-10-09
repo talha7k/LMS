@@ -52,7 +52,7 @@
     "katex": "^0.16.10",
     "marked": "^7.0.3",
     "nanoid": "^5.1.5",
-    "simple-scorm-packager": "^2.2.1",
+    "simple-scorm-packager": "^0.2.7",
     "nodemailer": "^6.9.5",
     "zeptomail": "^6.0.0",
     "zod": "^4.1.8",
