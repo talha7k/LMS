@@ -3,8 +3,6 @@ import { OpenAIStream, StreamingTextResponse } from 'ai';
 
 import { env } from '$env/dynamic/private';
 
-console.log('OPENAI_API_KEY loaded:', !!env.OPENAI_API_KEY);
-
 // Create an OpenAI API client (that's edge friendly!)
 const openAIConfig = new Configuration({
   apiKey: env.OPENAI_API_KEY
@@ -25,12 +23,8 @@ const instruction = {
 export async function POST({ request }) {
   try {
     const { prompt } = await request.json();
-    console.log('Received prompt:', prompt);
-
     const { courseTitle, lessonTitle, type, locale } = JSON.parse(prompt);
-    console.log('Parsed prompt:', { courseTitle, lessonTitle, type, locale });
 
-    console.log('Calling OpenAI API...');
     const response = await openai.createChatCompletion({
       model: 'gpt-4o',
       messages: [
@@ -45,20 +39,23 @@ export async function POST({ request }) {
         `
         }
       ],
-      stream: false // Disabled streaming
+      stream: true
     });
 
-    console.log('OpenAI API response received');
-    const data = await response.json();
-    console.log('OpenAI API data:', data);
+    // Check for errors from OpenAI
+    if (!response.ok) {
+      const error = await response.json();
+      console.error('OpenAI API error:', error);
+      return new Response(JSON.stringify({ error: 'OpenAI API error', details: error }), {
+        status: response.status,
+        headers: { 'Content-Type': 'application/json' }
+      });
+    }
 
-    const text = data.choices[0].message.content;
-
-    return new Response(text, {
-      status: 200,
-      headers: { 'Content-Type': 'text/html' }
-    });
-
+    // Convert the response into a friendly text-stream
+    const stream = OpenAIStream(response);
+    // Respond with the stream
+    return new StreamingTextResponse(stream);
   } catch (error) {
     console.error('Error in /api/completion:', error);
     return new Response(JSON.stringify({ error: 'Error processing completion request' }), {
