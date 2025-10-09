@@ -30,6 +30,7 @@ export async function POST({ request }) {
     const { courseTitle, lessonTitle, type, locale } = JSON.parse(prompt);
     console.log('Parsed prompt:', { courseTitle, lessonTitle, type, locale });
 
+    console.log('Calling OpenAI API...');
     const response = await openai.createChatCompletion({
       model: 'gpt-4o',
       messages: [
@@ -44,13 +45,20 @@ export async function POST({ request }) {
         `
         }
       ],
-      stream: true
+      stream: false // Disabled streaming
     });
 
-    // Convert the response into a friendly text-stream
-    const stream = OpenAIStream(response);
-    // Respond with the stream
-    return new StreamingTextResponse(stream);
+    console.log('OpenAI API response received');
+    const data = await response.json();
+    console.log('OpenAI API data:', data);
+
+    const text = data.choices[0].message.content;
+
+    return new Response(text, {
+      status: 200,
+      headers: { 'Content-Type': 'text/html' }
+    });
+
   } catch (error) {
     console.error('Error in /api/completion:', error);
     return new Response(JSON.stringify({ error: 'Error processing completion request' }), {
