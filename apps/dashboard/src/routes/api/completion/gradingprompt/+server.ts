@@ -17,7 +17,7 @@ export async function POST({ request }) {
   const { prompt } = await request.json();
 
   const response = await openai.createChatCompletion({
-    model: 'gpt-4o',
+    model: env.OPENAI_MODEL || 'gpt-5-nano',
     messages: [
       {
         role: 'system',
@@ -34,10 +34,10 @@ export async function POST({ request }) {
           score,
           explanation,
         }
-      
+
         IMPORTANT: DO NOT GIVE ANY OTHER TEXT EXCEPT THE JSON
 
-        The array you need to grade is below: 
+        The array you need to grade is below:
         ${prompt}
         `
       }

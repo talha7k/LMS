@@ -26,7 +26,7 @@ export async function POST({ request }) {
     const { courseTitle, lessonTitle, type, locale } = JSON.parse(prompt);
 
     const response = await openai.createChatCompletion({
-      model: 'gpt-4o',
+      model: env.OPENAI_MODEL || 'gpt-5-nano',
       messages: [
         {
           role: 'system',
