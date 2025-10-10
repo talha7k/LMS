@@ -94,32 +94,12 @@
       console.log('[SCORM Download] Course ID:', data.courseId);
       console.log('[SCORM Download] Token preview:', accessToken.substring(0, 20) + '...');
 
-      let response: Response;
-
-      try {
-        // Try using the API client first for consistent authentication handling
-        console.log('[SCORM Download] Trying API client approach');
-        response = await apiClient.request(`/api/course/scorm/${data.courseId}`, {
-          method: 'POST'
-        });
-        console.log('[SCORM Download] API client response status:', response.status);
-      } catch (apiClientError) {
-        console.error(
-          '[SCORM Download] API client failed, falling back to manual fetch:',
-          apiClientError
-        );
-
-        // Fallback to manual fetch with explicit auth header
-        console.log('[SCORM Download] Using manual fetch fallback');
-        response = await fetch(`/api/course/scorm/${data.courseId}`, {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-            'Content-Type': 'application/json'
-          }
-        });
-        console.log('[SCORM Download] Manual fetch response status:', response.status);
-      }
+      // Use the API client consistently for all authenticated requests
+      console.log('[SCORM Download] Using API client');
+      const response = await apiClient.request(`/api/course/scorm/${data.courseId}`, {
+        method: 'POST'
+      });
+      console.log('[SCORM Download] API client response status:', response.status);
 
       if (!response.ok) {
         let errorMessage = 'Error downloading SCORM package';

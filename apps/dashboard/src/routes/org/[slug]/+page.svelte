@@ -7,7 +7,7 @@
 
   import { snackbar } from '$lib/components/Snackbar/store';
   import { calDateDiff } from '$lib/utils/functions/date';
-  import { getAccessToken } from '$lib/utils/functions/supabase';
+  import { apiClient } from '$lib/utils/services/api';
   import { currentOrg, currentOrgPath } from '$lib/utils/store/org';
   import { profile } from '$lib/utils/store/user';
   import type { OrganisationAnalytics } from '$lib/utils/types/analytics';
@@ -38,25 +38,15 @@
   async function fetchDashAnalytics(orgId: string) {
     if (!orgId) return;
 
-    const accessToken = await getAccessToken();
-
     try {
-      const response = await fetch('/api/analytics/dash', {
+      const response = await apiClient.request<OrganisationAnalytics>('/analytics/dash', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: accessToken
-        },
-        body: JSON.stringify({ orgId })
+        body: { orgId }
       });
 
-      if (!response.ok) {
-        console.error(response);
-        throw new Error('Failed to fetch analytics data');
-      }
-
-      dashAnalytics = (await response.json()) as OrganisationAnalytics;
+      dashAnalytics = response;
     } catch (error) {
+      console.error('Failed to fetch analytics data:', error);
       snackbar.error('Failed to fetch analytics data');
     }
   }
@@ -96,7 +86,7 @@
 
 <div class="w-full max-w-5xl px-5 py-10 md:mx-auto">
   <div class="mb-5 flex items-center justify-between">
-    <h1 class="mb-3 text-2xl font-bold dark:text-white md:text-3xl">
+    <h1 class="mb-3 text-2xl font-bold md:text-3xl dark:text-white">
       {$t(getGreeting())}
       {$profile.fullname}!
     </h1>
@@ -137,7 +127,7 @@
 
   <div class="grid grid-cols-1 gap-4 lg:grid-cols-2">
     <div
-      class="flex min-h-[45vh] w-full flex-col rounded-md border p-3 dark:border-neutral-600 md:p-5"
+      class="flex min-h-[45vh] w-full flex-col rounded-md border p-3 md:p-5 dark:border-neutral-600"
     >
       <h3 class="mt-0 text-2xl font-bold">
         {$t('dashboard.top_courses')}
@@ -195,7 +185,7 @@
     </div>
 
     <div
-      class="flex min-h-[45vh] w-full flex-col rounded-md border p-3 dark:border-neutral-600 md:p-5"
+      class="flex min-h-[45vh] w-full flex-col rounded-md border p-3 md:p-5 dark:border-neutral-600"
     >
       <h3 class="mt-0 text-2xl font-bold">
         {$t('dashboard.recent_enrollments')}

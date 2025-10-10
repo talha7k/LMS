@@ -2,7 +2,7 @@
   import { ActivityCard, HeroProfileCard, LoadingPage } from '$lib/components/Analytics';
   import Progress from '$lib/components/Progress/index.svelte';
   import { snackbar } from '$lib/components/Snackbar/store';
-  import { getAccessToken } from '$lib/utils/functions/supabase';
+  import { apiClient } from '$lib/utils/services/api';
   import { t } from '$lib/utils/functions/translations';
   import type { UserCourseAnalytics } from '$lib/utils/types/analytics';
   import { Grid, Tag } from 'carbon-components-svelte';
@@ -33,20 +33,15 @@
   }
 
   async function fetchUserCourseAnalytics() {
-    const accessToken = await getAccessToken();
-    const response = await fetch('/api/analytics/user', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: accessToken
-      },
-      body: JSON.stringify(data)
-    });
+    try {
+      const response = await apiClient.request<UserCourseAnalytics>('/analytics/user', {
+        method: 'POST',
+        body: data
+      });
 
-    if (response.ok) {
-      userCourseAnalytics = (await response.json()) as UserCourseAnalytics;
-    } else {
-      console.error(response);
+      userCourseAnalytics = response;
+    } catch (error) {
+      console.error('Failed to fetch analytics data:', error);
       snackbar.error('Failed to fetch analytics data');
     }
   }

@@ -27,13 +27,8 @@
     try {
       isLoading = true;
 
-      const accessToken = await getAccessToken();
-      const response = await fetch('/api/analytics/course', {
+      const response = await apiClient.request('/api/analytics/course', {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: accessToken
-        },
         body: JSON.stringify({ courseId: data.courseId })
       });
 
