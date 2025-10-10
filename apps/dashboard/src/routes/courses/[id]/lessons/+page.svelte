@@ -80,27 +80,77 @@
   }
 
   async function downloadScorm() {
-    const accessToken = await getAccessToken();
-    const response = await fetch(`/api/course/scorm/${data.courseId}`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${accessToken}`
+    try {
+      const accessToken = await getAccessToken();
+
+      if (!accessToken) {
+        snackbar.error('Please log in to download SCORM package');
+        return;
       }
-    });
 
-    if (!response.ok) {
-      snackbar.error('Error downloading SCORM package');
-      return;
+      const response = await fetch(`/api/course/scorm/${data.courseId}`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${accessToken}`
+        }
+      });
+
+      if (!response.ok) {
+        let errorMessage = 'Error downloading SCORM package';
+
+        // Handle 401 Unauthorized specifically
+        if (response.status === 401) {
+          errorMessage = 'Authentication required. Please log in again.';
+          snackbar.error(errorMessage);
+          // Optionally redirect to login or trigger re-authentication
+          // goto('/login');
+          return;
+        }
+
+        try {
+          const errorData = await response.json();
+          console.error('[SCORM Download] Error response:', errorData);
+
+          switch (errorData.code) {
+            case 'COURSE_NOT_FOUND':
+              errorMessage = 'Course not found';
+              break;
+            case 'NO_LESSONS':
+              errorMessage = 'This course has no lessons to export';
+              break;
+            case 'GENERATION_ERROR':
+              errorMessage = `Failed to generate SCORM package: ${errorData.details}`;
+              break;
+            case 'MISSING_COURSE_ID':
+              errorMessage = 'Invalid course ID';
+              break;
+            default:
+              errorMessage = errorData.details || errorData.error || errorMessage;
+          }
+        } catch (parseError) {
+          console.error('[SCORM Download] Could not parse error response:', parseError);
+          errorMessage = `Server error (${response.status}): ${response.statusText}`;
+        }
+
+        snackbar.error(errorMessage);
+        return;
+      }
+
+      const blob = await response.blob();
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = `${$course.title.replace(/[^a-zA-Z0-9]/g, '_')}.zip`;
+      document.body.appendChild(a);
+      a.click();
+      a.remove();
+      window.URL.revokeObjectURL(url);
+
+      snackbar.success('SCORM package downloaded successfully');
+    } catch (error) {
+      console.error('[SCORM Download] Unexpected error:', error);
+      snackbar.error('Network error occurred while downloading SCORM package');
     }
-
-    const blob = await response.blob();
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = `${$course.title}.zip`;
-    document.body.appendChild(a);
-    a.click();
-    a.remove();
   }
 
   $: shouldGoToNextLesson = query.get('next') === 'true';
