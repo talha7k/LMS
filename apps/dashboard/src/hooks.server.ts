@@ -29,7 +29,10 @@ export const handle: Handle = async ({ event, resolve }) => {
     return response;
   }
 
-  const accessToken = event.request.headers.get('Authorization')!;
+  const authHeader = event.request.headers.get('Authorization')!;
+
+  // Extract token from "Bearer <token>" format or use raw token
+  const accessToken = authHeader.startsWith('Bearer ') ? authHeader.substring(7) : authHeader;
 
   try {
     const user = await validateUser(accessToken);
