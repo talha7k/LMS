@@ -17,6 +17,7 @@
   import ProgressIcon from '$lib/components/Course/components/Analytics/icons/ProgressIcon.svelte';
   import ExercisesIcon from '$lib/components/Course/components/Analytics/icons/ExercisesIcon.svelte';
   import EmptyState from '$lib/components/Course/components/Analytics/EmptyState.svelte';
+  import { apiClient } from '$lib/utils/services/api';
 
   export let data;
 
