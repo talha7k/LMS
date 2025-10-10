@@ -58,9 +58,9 @@ RUN corepack enable && corepack prepare pnpm@latest --activate
 # Copy only production node_modules for dashboard
 COPY --from=builder ./cio/node_modules ./node_modules
 COPY --from=builder ./cio/package.json ./package.json
-COPY --from=builder ./cio/apps/dashboard/node_modules ./apps/dashboard/node_modules
-COPY --from=builder ./cio/apps/dashboard/package.json ./apps/dashboard/package.json
-COPY --from=builder ./cio/apps/dashboard/build ./apps/dashboard/build
+COPY --from=builder ./cio/apps/dashboard/node_modules ./node_modules
+COPY --from=builder ./cio/apps/dashboard/package.json ./package.json
+COPY --from=builder ./cio/apps/dashboard/build ./build
 
 # Expose the port (default for SvelteKit Node adapter)
 EXPOSE 3000
@@ -80,4 +80,4 @@ ENV NODE_ENV=production \
 	PUBLIC_IP_REGISTRY_KEY=$PUBLIC_IP_REGISTRY_KEY
 
 # Start the app
-CMD ["node", "apps/dashboard/build/index.js"]
+CMD ["node", "build/index.js"]
