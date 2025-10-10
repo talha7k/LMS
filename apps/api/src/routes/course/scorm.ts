@@ -1,12 +1,13 @@
 import { Hono } from 'hono';
+import type { HttpBindings } from '@hono/node-server';
 import { getCourseDataForScorm } from '../../utils/scorm';
 import scorm from 'simple-scorm-packager';
 import fs from 'fs/promises';
 import path from 'path';
 import os from 'os';
-import { RESPONSE_ALREADY_SENT } from '@hono/node-server';
+import { RESPONSE_ALREADY_SENT } from '@hono/node-server/utils/response';
 
-export const scormRouter = new Hono().post('/:courseId', async (c) => {
+export const scormRouter = new Hono<{ Bindings: HttpBindings }>().post('/:courseId', async (c) => {
   const courseId = c.req.param('courseId');
 
   const courseData = await getCourseDataForScorm(courseId);
