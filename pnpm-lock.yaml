@@ -96,9 +96,6 @@ importers:
       nodemailer:
         specifier: ^6.9.5
         version: 6.10.1
-      simple-scorm-packager:
-        specifier: ^0.2.7
-        version: 0.2.7(@types/node@20.19.0)
       zeptomail:
         specifier: ^6.0.0
         version: 6.2.1(encoding@0.1.13)
@@ -10314,13 +10311,6 @@ snapshots:
       '@inquirer/type': 2.0.0
       yoctocolors-cjs: 2.1.2
 
-  '@inquirer/external-editor@1.0.2(@types/node@20.19.0)':
-    dependencies:
-      chardet: 2.1.0
-      iconv-lite: 0.7.0
-    optionalDependencies:
-      '@types/node': 20.19.0
-
   '@inquirer/external-editor@1.0.2(@types/node@24.0.1)':
     dependencies:
       chardet: 2.1.0
@@ -14229,26 +14219,6 @@ snapshots:
       run-async: 3.0.0
       rxjs: 7.8.2
 
-  inquirer@8.2.7(@types/node@20.19.0):
-    dependencies:
-      '@inquirer/external-editor': 1.0.2(@types/node@20.19.0)
-      ansi-escapes: 4.3.2
-      chalk: 4.1.2
-      cli-cursor: 3.1.0
-      cli-width: 3.0.0
-      figures: 3.2.0
-      lodash: 4.17.21
-      mute-stream: 0.0.8
-      ora: 5.4.1
-      run-async: 2.4.1
-      rxjs: 7.8.2
-      string-width: 4.2.3
-      strip-ansi: 6.0.1
-      through: 2.3.8
-      wrap-ansi: 6.2.0
-    transitivePeerDependencies:
-      - '@types/node'
-
   inquirer@8.2.7(@types/node@24.0.1):
     dependencies:
       '@inquirer/external-editor': 1.0.2(@types/node@24.0.1)
@@ -16214,17 +16184,6 @@ snapshots:
   signal-exit@3.0.7: {}
 
   signal-exit@4.1.0: {}
-
-  simple-scorm-packager@0.2.7(@types/node@20.19.0):
-    dependencies:
-      archiver: 5.3.2
-      fs-extra: 10.1.0
-      inquirer: 8.2.7(@types/node@20.19.0)
-      inquirer-directory: 2.2.0
-      jsonschema: 1.5.0
-      xmlbuilder: 15.1.1
-    transitivePeerDependencies:
-      - '@types/node'
 
   simple-scorm-packager@0.2.7(@types/node@24.0.1):
     dependencies:
