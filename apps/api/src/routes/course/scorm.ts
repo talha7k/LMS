@@ -15,6 +15,7 @@ export const scormRouter = new Hono<{ Bindings: HttpBindings }>()
     let tmpDir: string | null = null;
 
     try {
+      console.log('[SCORM] Entering try block');
       const courseId = c.req.param('courseId');
 
       if (!courseId) {
@@ -139,6 +140,7 @@ export const scormRouter = new Hono<{ Bindings: HttpBindings }>()
         500
       );
     } catch (error) {
+      console.error('[SCORM] Detailed error:', JSON.stringify(error, null, 2));
       console.error('[SCORM] Error generating SCORM package:', error);
 
       // Clean up temp directory on error
