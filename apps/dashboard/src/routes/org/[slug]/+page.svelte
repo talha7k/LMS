@@ -7,7 +7,7 @@
 
   import { snackbar } from '$lib/components/Snackbar/store';
   import { calDateDiff } from '$lib/utils/functions/date';
-  import { apiClient } from '$lib/utils/services/api';
+  
   import { currentOrg, currentOrgPath } from '$lib/utils/store/org';
   import { profile } from '$lib/utils/store/user';
   import type { OrganisationAnalytics } from '$lib/utils/types/analytics';
@@ -38,15 +38,25 @@
   async function fetchDashAnalytics(orgId: string) {
     if (!orgId) return;
 
+    const accessToken = await getAccessToken();
+
     try {
-      const response = await apiClient.request<OrganisationAnalytics>('/analytics/dash', {
+      const response = await fetch('/api/analytics/dash', {
         method: 'POST',
-        body: { orgId }
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: accessToken
+        },
+        body: JSON.stringify({ orgId })
       });
 
-      dashAnalytics = response;
+      if (!response.ok) {
+        console.error(response);
+        throw new Error('Failed to fetch analytics data');
+      }
+
+      dashAnalytics = (await response.json()) as OrganisationAnalytics;
     } catch (error) {
-      console.error('Failed to fetch analytics data:', error);
       snackbar.error('Failed to fetch analytics data');
     }
   }

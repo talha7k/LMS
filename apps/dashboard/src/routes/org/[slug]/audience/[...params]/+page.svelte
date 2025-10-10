@@ -2,7 +2,7 @@
   import { ActivityCard, HeroProfileCard, LoadingPage } from '$lib/components/Analytics';
   import Progress from '$lib/components/Progress/index.svelte';
   import { snackbar } from '$lib/components/Snackbar/store';
-  import { apiClient } from '$lib/utils/services/api';
+  
   import { t } from '$lib/utils/functions/translations';
   import { currentOrgPath } from '$lib/utils/store/org';
   import type { UserAnalytics } from '$lib/utils/types/analytics';
@@ -28,17 +28,22 @@
   }
 
   async function fetchUserAnalytics() {
-    try {
-      const response = await apiClient.request<UserAnalytics>('/analytics/user', {
-        method: 'POST',
-        body: data
-      });
+    const accessToken = await getAccessToken();
+    const response = await fetch('/api/analytics/user', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Authorization: accessToken
+      },
+      body: JSON.stringify(data)
+    });
 
-      userAnalytics = response;
-    } catch (error) {
-      console.error('Failed to fetch analytics data:', error);
+    if (!response.ok) {
+      console.error(response);
       snackbar.error('Failed to fetch analytics data');
     }
+
+    userAnalytics = (await response.json()) as UserAnalytics;
   }
 
   onMount(() => {

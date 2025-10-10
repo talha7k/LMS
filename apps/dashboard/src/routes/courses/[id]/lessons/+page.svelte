@@ -22,7 +22,8 @@
   import { snackbar } from '$lib/components/Snackbar/store';
   import { t } from '$lib/utils/functions/translations';
   import { getAccessToken } from '$lib/utils/functions/supabase';
-  import { apiClient } from '$lib/utils/services/api';
+import { apiClient } from '$lib/utils/services/api';
+  
   import { profile } from '$lib/utils/store/user';
   import type { Lesson } from '$lib/utils/types';
   import { COURSE_VERSION } from '$lib/utils/types';
