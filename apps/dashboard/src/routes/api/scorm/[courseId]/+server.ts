@@ -1,11 +1,11 @@
 import { json } from '@sveltejs/kit';
-import { createClient } from '@supabase/supabase-js';
+import { getServerSupabase } from '$lib/utils/functions/supabase.server';
 import scorm from 'simple-scorm-packager';
 import fsp from 'fs/promises';
 import path from 'path';
 import os from 'os';
-import { env } from '$env/dynamic/private';
-import { PUBLIC_SUPABASE_URL } from '$env/static/public';
+
+const supabase = getServerSupabase();
 
 const ID_QUERY = `
   id,
@@ -16,15 +16,7 @@ const ID_QUERY = `
   )
 `;
 
-async function getCourseDataForScorm(courseId: string, token: string) {
-  const supabase = createClient(PUBLIC_SUPABASE_URL, env.SUPABASE_SERVICE_ROLE_KEY, {
-    global: {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    }
-  });
-
+async function getCourseDataForScorm(courseId: string) {
   const { data, error } = await supabase
     .from('course')
     .select(ID_QUERY)
@@ -39,19 +31,8 @@ async function getCourseDataForScorm(courseId: string, token: string) {
   return data;
 }
 
-export async function POST({ params, request, setHeaders }) {
+export async function POST({ params, setHeaders }) {
   const { courseId } = params;
-
-  // Handle authentication like analytics API
-  const authHeader = request.headers.get('authorization');
-  if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return json(
-      { error: 'Authentication required', message: 'Please provide a valid bearer token' },
-      { status: 401 }
-    );
-  }
-
-  const token = authHeader.substring(7);
   let tmpDir: string | null = null;
 
   try {
@@ -68,7 +49,7 @@ export async function POST({ params, request, setHeaders }) {
 
     console.log(`[SCORM] Starting SCORM generation for course: ${courseId}`);
 
-    const courseData = await getCourseDataForScorm(courseId, token);
+    const courseData = await getCourseDataForScorm(courseId);
 
     if (!courseData) {
       return json(
