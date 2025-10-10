@@ -63,10 +63,6 @@ services:
         - PUBLIC_IP_REGISTRY_KEY=${PUBLIC_IP_REGISTRY_KEY}
     ports:
       - '3000:3000'
-    volumes:
-      - .:/app
-      - /app/node_modules
-      - /app/apps/dashboard/node_modules
     environment:
       - PUBLIC_IS_SELFHOSTED=true
       - DEPLOYMENT_PROVIDER=docker
