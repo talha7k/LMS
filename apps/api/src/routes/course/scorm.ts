@@ -2,7 +2,8 @@ import { Hono } from 'hono';
 import type { HttpBindings } from '@hono/node-server';
 import { getCourseDataForScorm } from '../../utils/scorm';
 import scorm from 'simple-scorm-packager';
-import fs from 'fs/promises';
+import fsp from 'fs/promises';
+import fs from 'fs';
 import path from 'path';
 import os from 'os';
 import { RESPONSE_ALREADY_SENT } from '@hono/node-server/utils/response';
@@ -46,9 +47,9 @@ export const scormRouter = new Hono<{ Bindings: HttpBindings }>()
         `[SCORM] Found course: ${courseData.title} with ${courseData.lessons?.length || 0} lessons`
       );
 
-      tmpDir = await fs.mkdtemp(path.join(os.tmpdir(), 'scorm-'));
+      tmpDir = await fsp.mkdtemp(path.join(os.tmpdir(), 'scorm-'));
       const contentDir = path.join(tmpDir, 'scorm-content');
-      await fs.mkdir(contentDir);
+      await fsp.mkdir(contentDir);
 
       const lessons = courseData.lessons || [];
 
@@ -80,7 +81,7 @@ export const scormRouter = new Hono<{ Bindings: HttpBindings }>()
         </html>
       `;
         const lessonPath = path.join(contentDir, `lesson-${lesson.id}.html`);
-        await fs.writeFile(lessonPath, lessonHtml);
+        await fsp.writeFile(lessonPath, lessonHtml);
       }
 
       const config = {
@@ -104,15 +105,8 @@ export const scormRouter = new Hono<{ Bindings: HttpBindings }>()
 
       console.log(`[SCORM] Zipping package to: ${zipPath}`);
       await packager.zip(zipPath);
-
-      const zipBuffer = await fs.readFile(zipPath);
-      console.log(`[SCORM] Created ZIP file, size: ${zipBuffer.length} bytes`);
-
-      // Clean up temp directory
-      if (tmpDir) {
-        await fs.rm(tmpDir, { recursive: true, force: true });
-        tmpDir = null;
-      }
+      
+      console.log(`[SCORM] Created ZIP file, starting stream...`);
 
       const nodeRes = c.env.outgoing;
       if (nodeRes) {
@@ -120,7 +114,19 @@ export const scormRouter = new Hono<{ Bindings: HttpBindings }>()
           'Content-Type': 'application/zip',
           'Content-Disposition': `attachment; filename="${courseData.title.replace(/[^a-zA-Z0-9]/g, '_')}.zip"`
         });
-        nodeRes.end(zipBuffer);
+        
+        const stream = fs.createReadStream(zipPath);
+        stream.pipe(nodeRes);
+
+        stream.on('close', () => {
+          if (tmpDir) {
+            fsp.rm(tmpDir, { recursive: true, force: true }).catch(err => {
+              console.error('[SCORM] Error cleaning up temp directory after stream:', err);
+            });
+            tmpDir = null;
+          }
+        });
+
         return RESPONSE_ALREADY_SENT;
       }
 
@@ -138,7 +144,7 @@ export const scormRouter = new Hono<{ Bindings: HttpBindings }>()
       // Clean up temp directory on error
       if (tmpDir) {
         try {
-          await fs.rm(tmpDir, { recursive: true, force: true });
+          await fsp.rm(tmpDir, { recursive: true, force: true });
         } catch (cleanupError) {
           console.error('[SCORM] Error cleaning up temp directory:', cleanupError);
         }
