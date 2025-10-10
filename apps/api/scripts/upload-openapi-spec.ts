@@ -100,14 +100,15 @@ class OpenAPISpecGenerator {
 
   async uploadToR2(options: UploadOptions): Promise<void> {
     if (!this.s3Client) {
-      throw new Error('S3 client not initialized. Check your Cloudflare R2 credentials.');
+      console.warn('⚠️  S3 client not initialized. Skipping R2 upload.');
+      return;
     }
 
     try {
-      console.log(`🔄 Uploading to R2 bucket`);
+      console.log(`🔄 Uploading to R2 bucket: ${env.CLOUDFLARE_R2_BUCKET_NAME}`);
 
       const command = new PutObjectCommand({
-        Bucket: 'api',
+        Bucket: env.CLOUDFLARE_R2_BUCKET_NAME,
         Key: options.key,
         Body: options.content,
         ContentType: options.contentType || 'application/json',
@@ -116,7 +117,16 @@ class OpenAPISpecGenerator {
 
       await this.s3Client.send(command);
       console.log(`✅ Successfully uploaded to R2`);
-    } catch (error) {
+    } catch (error: any) {
+      if (error.Code === 'NoSuchBucket') {
+        console.warn(
+          `⚠️  R2 bucket '${env.CLOUDFLARE_R2_BUCKET_NAME}' does not exist. Skipping upload.`
+        );
+        console.log(
+          '💡 To fix this, create the bucket in Cloudflare R2 dashboard or update CLOUDFLARE_R2_BUCKET_NAME in .env'
+        );
+        return;
+      }
       console.error('❌ Error uploading to R2:', error);
       throw error;
     }
