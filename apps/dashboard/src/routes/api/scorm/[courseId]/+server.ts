@@ -108,6 +108,14 @@ export async function POST({ params, setHeaders }) {
       organization: courseData.title,
       title: courseData.title,
       language: 'en-US',
+      source: contentDir,
+      package: {
+        name: courseData.title.replace(/[^a-zA-Z0-9]/g, '_'),
+        version: '1.0',
+        date: new Date().toISOString().split('T')[0],
+        outputFolder: tmpDir,
+        zip: true
+      },
       resources: lessons.map((lesson) => ({
         id: `lesson-${lesson.id}`,
         href: `lesson-${lesson.id}.html`,
@@ -117,13 +125,23 @@ export async function POST({ params, setHeaders }) {
 
     console.log(`[SCORM] Creating SCORM package with config:`, config);
 
-    const packager = new scorm(config);
-    packager.source(contentDir);
+    // Use the packager as a function with a promise wrapper
+    await new Promise((resolve, reject) => {
+      scorm(config, (result) => {
+        if (result === 'Done') {
+          resolve(result);
+        } else {
+          reject(new Error(`SCORM packaging failed: ${result}`));
+        }
+      });
+    });
 
-    const zipPath = path.join(tmpDir, `${courseData.title.replace(/[^a-zA-Z0-9]/g, '_')}.zip`);
+    const zipPath = path.join(
+      tmpDir,
+      `${courseData.title.replace(/[^a-zA-Z0-9]/g, '_')}_v1.0_${new Date().toISOString().split('T')[0]}.zip`
+    );
 
-    console.log(`[SCORM] Zipping package to: ${zipPath}`);
-    await packager.zip(zipPath);
+    console.log(`[SCORM] Looking for ZIP file at: ${zipPath}`);
 
     console.log(`[SCORM] Created ZIP file, reading for response...`);
 
