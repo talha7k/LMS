@@ -136,14 +136,18 @@ export async function POST({ params, setHeaders }) {
       });
     });
 
-    const zipPath = path.join(
-      tmpDir,
-      `${courseData.title.replace(/[^a-zA-Z0-9]/g, '_')}_v1.0_${new Date().toISOString().split('T')[0]}.zip`
-    );
+    // Find the actual ZIP file created by the packager
+    const files = await fsp.readdir(tmpDir);
+    const zipFile = files.find((file) => file.endsWith('.zip'));
 
-    console.log(`[SCORM] Looking for ZIP file at: ${zipPath}`);
+    if (!zipFile) {
+      throw new Error('No ZIP file was created by the SCORM packager');
+    }
 
-    console.log(`[SCORM] Created ZIP file, reading for response...`);
+    const zipPath = path.join(tmpDir, zipFile);
+    console.log(`[SCORM] Found ZIP file: ${zipPath}`);
+
+    console.log(`[SCORM] Reading ZIP file for response...`);
 
     const zipBuffer = await fsp.readFile(zipPath);
 
