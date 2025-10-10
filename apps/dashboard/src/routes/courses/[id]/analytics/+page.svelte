@@ -17,7 +17,6 @@
   import ProgressIcon from '$lib/components/Course/components/Analytics/icons/ProgressIcon.svelte';
   import ExercisesIcon from '$lib/components/Course/components/Analytics/icons/ExercisesIcon.svelte';
   import EmptyState from '$lib/components/Course/components/Analytics/EmptyState.svelte';
-  
 
   export let data;
 
@@ -28,8 +27,13 @@
     try {
       isLoading = true;
 
-      const response = await apiClient.request('/api/analytics/course', {
+      const accessToken = await getAccessToken();
+      const response = await fetch('/api/analytics/course', {
         method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: accessToken
+        },
         body: JSON.stringify({ courseId: data.courseId })
       });
 

@@ -22,8 +22,8 @@
   import { snackbar } from '$lib/components/Snackbar/store';
   import { t } from '$lib/utils/functions/translations';
   import { getAccessToken } from '$lib/utils/functions/supabase';
-import { apiClient } from '$lib/utils/services/api';
-  
+  import { apiClient } from '$lib/utils/services/api';
+
   import { profile } from '$lib/utils/store/user';
   import type { Lesson } from '$lib/utils/types';
   import { COURSE_VERSION } from '$lib/utils/types';
@@ -95,12 +95,32 @@ import { apiClient } from '$lib/utils/services/api';
       console.log('[SCORM Download] Course ID:', data.courseId);
       console.log('[SCORM Download] Token preview:', accessToken.substring(0, 20) + '...');
 
-      // Use the API client consistently for all authenticated requests
-      console.log('[SCORM Download] Using API client');
-      const response = await apiClient.request(`/course/scorm/${data.courseId}`, {
-        method: 'POST'
-      });
-      console.log('[SCORM Download] API client response status:', response.status);
+      let response: Response;
+
+      try {
+        // Try using the API client first for consistent authentication handling
+        console.log('[SCORM Download] Trying API client approach');
+        response = await apiClient.request(`/course/scorm/${data.courseId}`, {
+          method: 'POST'
+        });
+        console.log('[SCORM Download] API client response status:', response.status);
+      } catch (apiClientError) {
+        console.error(
+          '[SCORM Download] API client failed, falling back to manual fetch:',
+          apiClientError
+        );
+
+        // Fallback to manual fetch with explicit auth header
+        console.log('[SCORM Download] Using manual fetch fallback');
+        response = await fetch(`/course/scorm/${data.courseId}`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log('[SCORM Download] Manual fetch response status:', response.status);
+      }
 
       if (!response.ok) {
         let errorMessage = 'Error downloading SCORM package';
