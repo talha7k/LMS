@@ -97,7 +97,11 @@
       // Use the new dashboard API route for SCORM download
       console.log('[SCORM Download] Using dashboard API route');
       const response = await fetch(`/api/scorm/${data.courseId}`, {
-        method: 'POST'
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: accessToken
+        }
       });
       console.log('[SCORM Download] Dashboard API response status:', response.status);
 
