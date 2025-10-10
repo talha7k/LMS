@@ -96,7 +96,7 @@
 
       // Use the API client consistently for all authenticated requests
       console.log('[SCORM Download] Using API client');
-      const response = await apiClient.request(`/api/course/scorm/${data.courseId}`, {
+      const response = await apiClient.request(`/course/scorm/${data.courseId}`, {
         method: 'POST'
       });
       console.log('[SCORM Download] API client response status:', response.status);
