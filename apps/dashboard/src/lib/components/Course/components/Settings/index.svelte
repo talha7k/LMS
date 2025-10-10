@@ -73,7 +73,7 @@
         video: lesson.videos || ''
       }));
 
-      const response = await fetch(env.PUBLIC_SERVER_URL + '/downloadCourse', {
+      const response = await fetch(env.PUBLIC_SERVER_URL + '/course/download/content', {
         method: 'POST',
         headers: {
           Accept: 'application/json',
