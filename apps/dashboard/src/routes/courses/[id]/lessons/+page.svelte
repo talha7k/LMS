@@ -22,6 +22,7 @@
   import { snackbar } from '$lib/components/Snackbar/store';
   import { t } from '$lib/utils/functions/translations';
   import { getAccessToken } from '$lib/utils/functions/supabase';
+  import { apiClient } from '$lib/utils/services/api';
   import { profile } from '$lib/utils/store/user';
   import type { Lesson } from '$lib/utils/types';
   import { COURSE_VERSION } from '$lib/utils/types';
@@ -81,6 +82,7 @@
 
   async function downloadScorm() {
     try {
+      // First validate the session and get a fresh token
       const accessToken = await getAccessToken();
 
       if (!accessToken) {
@@ -88,12 +90,36 @@
         return;
       }
 
-      const response = await fetch(`/api/course/scorm/${data.courseId}`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${accessToken}`
-        }
-      });
+      console.log('[SCORM Download] Starting download with token length:', accessToken.length);
+      console.log('[SCORM Download] Course ID:', data.courseId);
+      console.log('[SCORM Download] Token preview:', accessToken.substring(0, 20) + '...');
+
+      let response: Response;
+
+      try {
+        // Try using the API client first for consistent authentication handling
+        console.log('[SCORM Download] Trying API client approach');
+        response = await apiClient.request(`/api/course/scorm/${data.courseId}`, {
+          method: 'POST'
+        });
+        console.log('[SCORM Download] API client response status:', response.status);
+      } catch (apiClientError) {
+        console.error(
+          '[SCORM Download] API client failed, falling back to manual fetch:',
+          apiClientError
+        );
+
+        // Fallback to manual fetch with explicit auth header
+        console.log('[SCORM Download] Using manual fetch fallback');
+        response = await fetch(`/api/course/scorm/${data.courseId}`, {
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        console.log('[SCORM Download] Manual fetch response status:', response.status);
+      }
 
       if (!response.ok) {
         let errorMessage = 'Error downloading SCORM package';
@@ -101,7 +127,22 @@
         // Handle 401 Unauthorized specifically
         if (response.status === 401) {
           errorMessage = 'Authentication required. Please log in again.';
+          console.error('[SCORM Download] 401 Unauthorized - token may be expired or invalid');
+          console.error(
+            '[SCORM Download] Response headers:',
+            Object.fromEntries(response.headers.entries())
+          );
+
+          // Try to get more details about the auth error
+          try {
+            const errorText = await response.text();
+            console.error('[SCORM Download] 401 Error body:', errorText);
+          } catch (e) {
+            console.error('[SCORM Download] Could not read error body');
+          }
+
           snackbar.error(errorMessage);
+
           // Optionally redirect to login or trigger re-authentication
           // goto('/login');
           return;
@@ -129,14 +170,21 @@
           }
         } catch (parseError) {
           console.error('[SCORM Download] Could not parse error response:', parseError);
-          errorMessage = `Server error (${response.status}): ${response.statusText}`;
+          const errorText = await response.text().catch(() => 'Unknown error');
+          errorMessage = `Server error (${response.status}): ${response.statusText} - ${errorText}`;
         }
 
         snackbar.error(errorMessage);
         return;
       }
 
+      console.log('[SCORM Download] Response successful, processing blob');
+      console.log('[SCORM Download] Content-Type:', response.headers.get('content-type'));
+      console.log('[SCORM Download] Content-Length:', response.headers.get('content-length'));
+
       const blob = await response.blob();
+      console.log('[SCORM Download] Blob size:', blob.size);
+
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
       a.href = url;
@@ -149,6 +197,16 @@
       snackbar.success('SCORM package downloaded successfully');
     } catch (error) {
       console.error('[SCORM Download] Unexpected error:', error);
+
+      // Handle specific API client errors
+      if (error && typeof error === 'object' && 'status' in error) {
+        const apiError = error as any;
+        if (apiError.status === 401) {
+          snackbar.error('Authentication required. Please log in again.');
+          return;
+        }
+      }
+
       snackbar.error('Network error occurred while downloading SCORM package');
     }
   }
