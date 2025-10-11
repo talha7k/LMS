@@ -2,7 +2,7 @@
   import { ActivityCard, HeroProfileCard, LoadingPage } from '$lib/components/Analytics';
   import Progress from '$lib/components/Progress/index.svelte';
   import { snackbar } from '$lib/components/Snackbar/store';
-  
+  import { getAccessToken } from '$lib/utils/functions/supabase';
   import { t } from '$lib/utils/functions/translations';
   import { currentOrgPath } from '$lib/utils/store/org';
   import type { UserAnalytics } from '$lib/utils/types/analytics';

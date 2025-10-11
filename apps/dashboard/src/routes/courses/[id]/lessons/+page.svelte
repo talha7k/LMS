@@ -80,121 +80,6 @@
     }
   }
 
-  async function downloadScorm() {
-    try {
-      // First validate the session and get a fresh token
-      const accessToken = await getAccessToken();
-
-      if (!accessToken) {
-        snackbar.error('Please log in to download SCORM package');
-        return;
-      }
-
-      console.log('[SCORM Download] Starting download with token length:', accessToken.length);
-      console.log('[SCORM Download] Course ID:', data.courseId);
-      console.log('[SCORM Download] Token preview:', accessToken.substring(0, 20) + '...');
-
-      // Use the new dashboard API route for SCORM download
-      console.log('[SCORM Download] Using dashboard API route');
-      const response = await fetch(`/api/scorm/${data.courseId}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: accessToken
-        }
-      });
-      console.log('[SCORM Download] Dashboard API response status:', response.status);
-
-      if (!response.ok) {
-        let errorMessage = 'Error downloading SCORM package';
-
-        // Handle 401 Unauthorized specifically
-        if (response.status === 401) {
-          errorMessage = 'Authentication required. Please log in again.';
-          console.error('[SCORM Download] 401 Unauthorized - token may be expired or invalid');
-          console.error(
-            '[SCORM Download] Response headers:',
-            Object.fromEntries(response.headers.entries())
-          );
-
-          // Try to get more details about the auth error
-          try {
-            const errorText = await response.text();
-            console.error('[SCORM Download] 401 Error body:', errorText);
-          } catch (e) {
-            console.error('[SCORM Download] Could not read error body');
-          }
-
-          snackbar.error(errorMessage);
-
-          // Optionally redirect to login or trigger re-authentication
-          // goto('/login');
-          return;
-        }
-
-        try {
-          const errorData = await response.json();
-          console.error('[SCORM Download] Error response:', errorData);
-
-          switch (errorData.code) {
-            case 'COURSE_NOT_FOUND':
-              errorMessage = 'Course not found';
-              break;
-            case 'NO_LESSONS':
-              errorMessage = 'This course has no lessons to export';
-              break;
-            case 'GENERATION_ERROR':
-              errorMessage = `Failed to generate SCORM package: ${errorData.details}`;
-              break;
-            case 'MISSING_COURSE_ID':
-              errorMessage = 'Invalid course ID';
-              break;
-            default:
-              errorMessage = errorData.details || errorData.error || errorMessage;
-          }
-        } catch (parseError) {
-          console.error('[SCORM Download] Could not parse error response:', parseError);
-          const errorText = await response.text().catch(() => 'Unknown error');
-          errorMessage = `Server error (${response.status}): ${response.statusText} - ${errorText}`;
-        }
-
-        snackbar.error(errorMessage);
-        return;
-      }
-
-      console.log('[SCORM Download] Response successful, processing blob');
-      console.log('[SCORM Download] Content-Type:', response.headers.get('content-type'));
-      console.log('[SCORM Download] Content-Length:', response.headers.get('content-length'));
-
-      const blob = await response.blob();
-      console.log('[SCORM Download] Blob size:', blob.size);
-
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = `${$course.title.replace(/[^a-zA-Z0-9]/g, '_')}.zip`;
-      document.body.appendChild(a);
-      a.click();
-      a.remove();
-      window.URL.revokeObjectURL(url);
-
-      snackbar.success('SCORM package downloaded successfully');
-    } catch (error) {
-      console.error('[SCORM Download] Unexpected error:', error);
-
-      // Handle specific API client errors
-      if (error && typeof error === 'object' && 'status' in error) {
-        const apiError = error as any;
-        if (apiError.status === 401) {
-          snackbar.error('Authentication required. Please log in again.');
-          return;
-        }
-      }
-
-      snackbar.error('Network error occurred while downloading SCORM package');
-    }
-  }
-
   $: shouldGoToNextLesson = query.get('next') === 'true';
   $: !isFetching && shouldGoToNextLesson && onNextQuery($lessons);
   $: lessonsLength =
@@ -233,11 +118,6 @@
         <PrimaryButton
           label={$t('course.navItem.lessons.add_lesson.button_title')}
           onClick={addLesson}
-          isDisabled={!!lessonEditing}
-        />
-        <PrimaryButton
-          label={$t('course.navItem.lessons.download_scorm')}
-          onClick={downloadScorm}
           isDisabled={!!lessonEditing}
         />
       </RoleBasedSecurity>
