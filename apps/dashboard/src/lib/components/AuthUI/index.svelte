@@ -7,6 +7,7 @@
   import { currentOrg } from '$lib/utils/store/org';
   import type { SupabaseClient } from '@supabase/supabase-js';
   import GoogleIconColored from '../Icons/GoogleIconColored.svelte';
+  import { createOAuthState } from '$lib/utils/functions/oauthHandler';
 
   export let supabase: SupabaseClient;
   export let handleSubmit = () => {};
@@ -26,9 +27,19 @@
     const params = new URLSearchParams(window.location.search);
     console.log('OAuth params:', { params });
     const pathname = redirectPathname || params.get('redirect');
-    const redirectTo = `${window.location.origin}${pathname || ''}`;
 
-    console.log('OAuth redirect to:', { redirectTo, pathname, redirectPathname });
+    // Build the redirect URL with current domain and path
+    const currentOrigin = window.location.origin;
+    const redirectPath = pathname || window.location.pathname;
+    const redirectTo = `${currentOrigin}${redirectPath}`;
+
+    console.log('OAuth redirect configuration:', {
+      currentOrigin,
+      redirectPath,
+      redirectTo,
+      pathname,
+      redirectPathname
+    });
 
     try {
       console.log('Starting Google OAuth flow');
@@ -38,7 +49,9 @@
           redirectTo,
           queryParams: {
             access_type: 'offline',
-            prompt: 'consent'
+            prompt: 'consent',
+            // Include current domain in state for post-auth handling
+            state: createOAuthState(redirectPath)
           }
         }
       });

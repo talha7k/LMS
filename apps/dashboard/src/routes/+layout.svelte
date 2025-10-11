@@ -21,6 +21,7 @@
   import { getSupabase } from '$lib/utils/functions/supabase';
   import { setTheme } from '$lib/utils/functions/theme';
   import { initOrgAnalytics } from '$lib/utils/services/posthog';
+  import { handleOAuthCallback } from '$lib/utils/functions/oauthHandler';
   import { globalStore } from '$lib/utils/store/app';
   import { currentOrg } from '$lib/utils/store/org';
   import { isMobile } from '$lib/utils/store/useMobile';
@@ -46,6 +47,13 @@
   const getProfileDebounced = debounce(getProfile, 1000);
 
   onMount(() => {
+    // Handle OAuth callback before any other logic
+    const isOAuthRedirect = handleOAuthCallback();
+    if (isOAuthRedirect) {
+      // OAuth handler is redirecting to correct domain, don't continue
+      return;
+    }
+
     console.log(
       'Welcome to LMS Enrich, we are grateful you chose us.',
       $page.url.host,
