@@ -2,6 +2,7 @@ import { currentOrg, currentOrgDomain } from '$lib/utils/store/org';
 import { identifyPosthogUser, initPosthog } from '$lib/utils/services/posthog';
 import { initSentry, setSentryUser } from '$lib/utils/services/sentry';
 import { profile, user } from '$lib/utils/store/user';
+import { getAuthRedirectUrl, shouldStayOnCurrentDomain } from './domainAuth';
 
 import { ROLE } from '$lib/utils/constants/roles';
 import { ROUTE } from '$lib/utils/constants/routes';
@@ -65,6 +66,14 @@ export async function getProfile({
   const currentOrgDomainStore = get(currentOrgDomain);
 
   const params = new URLSearchParams(window.location.search);
+
+  console.log('=== AUTH FLOW DEBUG ===');
+  console.log('Current domain:', window.location.origin);
+  console.log('Is org site:', isOrgSite);
+  console.log('Org site name:', orgSiteName);
+  console.log('Current org store:', currentOrgStore);
+  console.log('Path:', path);
+  console.log('Query params:', queryParam);
   // Get user profile
   const {
     data: { session },
@@ -152,16 +161,32 @@ export async function getProfile({
       handleLocaleChange(newProfileData[0].locale);
 
       if (isOrgSite) {
+        // Use the newly created profile data instead of potentially empty profileStore
+        const newProfileId = newProfileData[0]?.id;
+        console.log(
+          'Adding user to organization with profile ID:',
+          newProfileId,
+          'and org ID:',
+          currentOrgStore.id
+        );
+
+        if (!newProfileId) {
+          console.error('No profile ID available for organization member creation');
+          return;
+        }
+
         const { data, error } = await supabase
           .from('organizationmember')
           .insert({
             organization_id: currentOrgStore.id,
-            profile_id: profileStore.id,
-            role_id: 3
+            profile_id: newProfileId,
+            role_id: 3 // Student role
           })
           .select();
+
         if (error) {
           console.error('Error adding user to organisation', error);
+          // Don't return here - continue with the flow even if org member creation fails
         } else {
           console.log('Success adding user to organisation', data);
           const memberId = data?.[0]?.id || '';
@@ -213,31 +238,33 @@ export async function getProfile({
 
     const isStudentAccount = orgRes.currentOrg.role_id == ROLE.STUDENT;
 
-    // student redirect
-    if (isOrgSite) {
-      if (params.has('redirect')) {
-        goto(params.get('redirect') || '');
-      } else if (shouldRedirectOnAuth(path)) {
-        goto('/lms');
-      }
-    } else {
-      if (isStudentAccount) {
-        // Check if the student logged into the dashboard.
-        console.log('Student logged into dashboard');
-        if (dev) {
-          goto('/lms');
-        } else {
-          window.location.replace(`${currentOrgDomainStore}/lms`);
-        }
-      } else if (isEmpty(orgRes.orgs) && !path.includes('invite')) {
-        // Not on invite page or no org, go to onboarding
-        goto(ROUTE.ONBOARDING);
-      } else if (params.has('redirect')) {
-        goto(params.get('redirect') || '');
-      } else if (shouldRedirectOnAuth(path)) {
-        // By default redirect to first organization
-        goto(`/org/${orgRes.currentOrg.siteName}`);
-      }
+    // Domain-aware redirect logic
+    const userRole = isStudentAccount ? 'student' : 'admin';
+    const shouldStay = shouldStayOnCurrentDomain(isOrgSite, userRole);
+
+    console.log('Redirect decision:', {
+      isOrgSite,
+      userRole,
+      shouldStay,
+      orgSiteName
+    });
+
+    if (params.has('redirect')) {
+      // Respect explicit redirect parameter
+      goto(params.get('redirect') || '');
+    } else if (shouldRedirectOnAuth(path)) {
+      // Use domain-aware redirect logic
+      const redirectUrl = getAuthRedirectUrl(
+        isOrgSite,
+        userRole,
+        orgRes.currentOrg?.siteName,
+        '/lms'
+      );
+      console.log('Redirecting to:', redirectUrl);
+      goto(redirectUrl);
+    } else if (!isOrgSite && isEmpty(orgRes.orgs) && !path.includes('invite')) {
+      // Not on invite page or no org, go to onboarding (only on main domain)
+      goto(ROUTE.ONBOARDING);
     }
 
     setTheme(orgRes?.currentOrg?.theme);
