@@ -68,6 +68,14 @@
       const response = await fetch('https://api.ipregistry.co/?key=tryout');
       const metadata = await response.json();
 
+      console.log('Creating profile with data:', {
+        id: authUser.id,
+        username: regexUsernameMatch[1] + `${new Date().getTime()}`,
+        fullname: regexUsernameMatch[1],
+        email: authUser.email,
+        metadata
+      });
+
       const profileRes = await supabase
         .from('profile')
         .insert({
@@ -81,7 +89,8 @@
       console.log('profileRes', profileRes);
 
       if (profileRes.error) {
-        throw profileRes.error;
+        console.error('Profile creation error:', profileRes.error);
+        throw new Error(`Profile creation failed: ${profileRes.error.message}`);
       }
 
       // Setting profile
@@ -114,7 +123,9 @@
       success = true;
       fields = Object.assign({}, SIGNUP_FIELDS);
     } catch (error: any) {
-      submitError = error?.error_description || error?.message;
+      console.error('Signup error:', error);
+      submitError =
+        error?.error_description || error?.message || 'Signup failed. Please try again.';
       loading = false;
     }
   }

@@ -24,25 +24,35 @@
     }
 
     const params = new URLSearchParams(window.location.search);
-    console.log({ params });
+    console.log('OAuth params:', { params });
     const pathname = redirectPathname || params.get('redirect');
-    const redirectTo = `${window.location.origin + pathname}`;
+    const redirectTo = `${window.location.origin}${pathname || ''}`;
 
-    console.log({ redirectTo });
+    console.log('OAuth redirect to:', { redirectTo, pathname, redirectPathname });
 
     try {
-      console.log('signInWithGoogle');
+      console.log('Starting Google OAuth flow');
       const { error, data } = await supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
-          redirectTo
+          redirectTo,
+          queryParams: {
+            access_type: 'offline',
+            prompt: 'consent'
+          }
         }
       });
 
-      console.log('data', data);
-      console.log('error', error);
-    } catch (error) {
-      console.log('catch error', error);
+      if (error) {
+        console.error('Google OAuth error:', error);
+        alert(`Google sign-in failed: ${error.message || 'Unknown error'}`);
+        return;
+      }
+
+      console.log('Google OAuth initiated successfully:', data);
+    } catch (error: any) {
+      console.error('Google OAuth exception:', error);
+      alert(`Google sign-in failed: ${error?.message || 'Network error'}`);
     }
   }
 </script>

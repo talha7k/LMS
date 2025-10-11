@@ -67,10 +67,16 @@ export async function getProfile({
   const params = new URLSearchParams(window.location.search);
   // Get user profile
   const {
-    data: { session }
+    data: { session },
+    error: sessionError
   } = await supabase.auth.getSession();
+
+  if (sessionError) {
+    console.error('Session error:', sessionError);
+  }
+
   const { user: authUser } = session || {};
-  console.log('Get user', authUser);
+  console.log('Get user', authUser, 'Session error:', sessionError);
 
   if (!authUser && !isPublicRoute(pageStore.url?.pathname)) {
     return goto('/login?redirect=/' + path + queryParam);
@@ -85,20 +91,28 @@ export async function getProfile({
   // Check if user has profile
   let {
     data: profileData,
-    error,
+    error: profileError,
     status
   } = await supabase.from('profile').select(`*`).eq('id', authUser?.id).single();
-  console.log('Get profile', profileData);
+  console.log('Get profile', profileData, 'Profile error:', profileError, 'Status:', status);
 
-  if (error && !profileData && status === 406 && authUser) {
+  if (profileError && !profileData && status === 406 && authUser) {
     // User wasn't found, create profile
     console.log(`User wasn't found, create profile`);
 
     const [regexUsernameMatch] = [...(authUser.email?.matchAll(/(.*)@/g) || [])];
-
     const isGoogleAuth = !!authUser.app_metadata?.providers?.includes('google');
 
-    const { data: newProfileData, error } = await supabase
+    console.log('Creating profile with data:', {
+      id: authUser.id,
+      username: regexUsernameMatch[1] + `${new Date().getTime()}`,
+      fullname: regexUsernameMatch[1],
+      email: authUser.email,
+      is_email_verified: isGoogleAuth,
+      verified_at: isGoogleAuth ? new Date().toDateString() : undefined
+    });
+
+    const { data: newProfileData, error: profileError } = await supabase
       .from('profile')
       .insert({
         id: authUser.id,
@@ -110,8 +124,19 @@ export async function getProfile({
       })
       .select();
 
+    if (profileError) {
+      console.error('Profile creation failed:', profileError);
+      // Show user-friendly error message
+      alert(
+        `Failed to create profile: ${profileError.message || 'Unknown error'}. Please try again or contact support.`
+      );
+      return;
+    }
+
+    console.log('Profile created successfully:', newProfileData);
+
     // Profile created, go to onboarding or lms
-    if (!error && newProfileData) {
+    if (!profileError && newProfileData) {
       user.update((_user) => ({
         ..._user,
         fetchingUser: false,
@@ -159,6 +184,9 @@ export async function getProfile({
       if (!path.includes('invite')) {
         goto(ROUTE.ONBOARDING);
       }
+    } else {
+      console.error('Profile creation returned no data:', { profileError, newProfileData });
+      alert('Profile creation failed: No data returned. Please try again.');
     }
 
     user.update((_user) => ({
