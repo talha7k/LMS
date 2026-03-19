@@ -2,8 +2,8 @@
   "name": "enrich-sa",
   "version": "0.1.1",
   "scripts": {
-    "build": "turbo run build",
-    "dev": "turbo prepare --concurrency 13 && turbo run dev",
+    "build": "node init && turbo run build",
+    "dev": "node init && turbo prepare --concurrency 13 && turbo run dev",
     "lint": "turbo run lint",
     "clean": "turbo clean && rm -rf node_modules",
     "format": "prettier . --write",
