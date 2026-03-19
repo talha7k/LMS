@@ -14,17 +14,17 @@
   },
   "license": "MIT",
   "dependencies": {
-    "turbo": "^1.10.16"
+    "turbo": "^2.8.19"
   },
   "devDependencies": {
-    "concurrently": "^8.2.2",
-    "eslint": "^8.54.0",
-    "prettier": "^3.1.0",
-    "prettier-plugin-svelte": "^3.1.2",
-    "prettier-plugin-tailwindcss": "^0.5.7",
+    "concurrently": "^9.2.1",
+    "eslint": "^10.0.3",
+    "prettier": "^3.8.1",
+    "prettier-plugin-svelte": "^3.5.1",
+    "prettier-plugin-tailwindcss": "^0.7.2",
     "standard-version": "^9.5.0",
     "tsconfig": "workspace:*",
-    "typescript": "^5.1.6"
+    "typescript": "^5.9.3"
   },
   "engines": {
     "node": "^20.19.3"
