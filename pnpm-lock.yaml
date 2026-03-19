@@ -510,7 +510,7 @@ importers:
         version: 22.15.31
       autoprefixer:
         specifier: ^10.4.20
-        version: 10.4.21(postcss@8.5.5)
+        version: 10.4.21(postcss@8.5.8)
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -12395,6 +12395,16 @@ snapshots:
       normalize-range: 0.1.2
       picocolors: 1.1.1
       postcss: 8.5.5
+      postcss-value-parser: 4.2.0
+
+  autoprefixer@10.4.21(postcss@8.5.8):
+    dependencies:
+      browserslist: 4.25.0
+      caniuse-lite: 1.0.30001723
+      fraction.js: 4.3.7
+      normalize-range: 0.1.2
+      picocolors: 1.1.1
+      postcss: 8.5.8
       postcss-value-parser: 4.2.0
 
   available-typed-arrays@1.0.7:
